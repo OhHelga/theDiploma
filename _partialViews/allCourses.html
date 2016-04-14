@@ -1,0 +1,25 @@
+<div data-ng-controller="CoursesCtrl">
+    <div class = "row">
+        <div class = "col-md-6">
+            <h6 class="row header">For applicants</h6>
+            <div class="col-md-6" ng-repeat="category in categories | filter:{group:'applicants'}" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
+                <span data-ng-click="show_filtered_courses(category.Id)" style="cursor: pointer">{{category.Name}}</span>
+                <span class="subcategories">
+                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, sub.Id)'>{{sub.Name}}</div>
+                </span>
+            </div>
+        </div>
+        <div class = "col-md-6">
+            <h6 class="row header">For students</h6>
+            <div class="col-md-6" ng-repeat="category in categories | filter:{group:'students'}" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
+                <span data-ng-click="show_filtered_courses(category.Id)" style="cursor: pointer">{{category.Name}}</span>
+                <span class="subcategories">
+                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, sub.Id)'>{{sub.Name}}</div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!--most popular carousel-->
+    </div>
+</div>

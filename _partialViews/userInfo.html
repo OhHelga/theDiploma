@@ -1,0 +1,82 @@
+<div class="row" style="height: 50%">
+    <div class="col-md-4" style="height: 100%">
+        <img src="IMG_9273(2).jpg" class="avatar" alt="user.Login">
+    </div>
+
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-3">
+                <h6>Login:</h6>
+            </div>
+            <div class="col-md-9">
+                {{user.Login}}
+                myLogin
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h6>Name:</h6>
+            </div>
+            <div class="col-md-9">
+                {{user.Name}}
+                myName
+            </div>
+        </div>
+        <span ng-class="(user.Id == User.Id) ? '' : 'hidden'">
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>E-mail (hidden):</h6>
+                </div>
+                <div class="col-md-9">
+                    {{user.Email}} myEmain
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>Phone number (hidden):</h6>
+                </div>
+                <div class="col-md-9">
+                    {{user.Phone}} myPhone
+                </div>
+            </div>
+        </span>
+        <div class="row">
+            <div class="col-md-3">
+                <h6>Status:</h6>
+            </div>
+            <div class="col-md-9">
+                {{user.Status}}
+                myStatus
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h6>About me:</h6>
+            </div>
+            <div class="col-md-9">
+                {{user.About}}
+                ABout me djvnfdsjvnjkdvnkjfdnvkjfndvjknd fkjvgnfjdvgkjdfnvjesdfnvjn dfjvnsfjdvgnkj fdgnvskjdfvgnsjkd fvgnsirkdvfnksjdnk dsfjk
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h6>Ended courses: </h6>
+        <div class="col-md-3" ng-repeat="course in user.endedCourses">
+            {{course.Name}}
+        </div>
+        <button ng-click="show_all_endedCourses(user.Id)">Show all</button>
+    </div>
+    <div class="col-md-6">
+        <h6>Courses for now: </h6>
+        <div class="col-md-3" ng-repeat="course in user.Courses">
+            {{course.Name}}
+        </div>
+        <button ng-click="show_all_courses(user.Id)"> Show all</button>
+    </div>
+</div>
+
+<button ng-click="change_user_data(user.Id)" ng-class="(user.Id == User.Id) ? '' : 'hidden'">
+    Change profile data
+</button>

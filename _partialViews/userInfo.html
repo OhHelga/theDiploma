@@ -1,3 +1,4 @@
+<span data-ng-controller="UserCtrl">
 <div class="row" style="height: 50%">
     <div class="col-md-4" style="height: 100%">
         <img src="IMG_9273(2).jpg" class="avatar" alt="user.Login">
@@ -10,7 +11,6 @@
             </div>
             <div class="col-md-9">
                 {{user.Login}}
-                myLogin
             </div>
         </div>
         <div class="row">
@@ -19,7 +19,6 @@
             </div>
             <div class="col-md-9">
                 {{user.Name}}
-                myName
             </div>
         </div>
         <span ng-class="(user.Id == User.Id) ? '' : 'hidden'">
@@ -28,7 +27,7 @@
                     <h6>E-mail (hidden):</h6>
                 </div>
                 <div class="col-md-9">
-                    {{user.Email}} myEmain
+                    {{user.Email}}
                 </div>
             </div>
             <div class="row">
@@ -36,7 +35,7 @@
                     <h6>Phone number (hidden):</h6>
                 </div>
                 <div class="col-md-9">
-                    {{user.Phone}} myPhone
+                    {{user.Phone}}
                 </div>
             </div>
         </span>
@@ -46,7 +45,6 @@
             </div>
             <div class="col-md-9">
                 {{user.Status}}
-                myStatus
             </div>
         </div>
         <div class="row">
@@ -55,7 +53,6 @@
             </div>
             <div class="col-md-9">
                 {{user.About}}
-                ABout me djvnfdsjvnjkdvnkjfdnvkjfndvjknd fkjvgnfjdvgkjdfnvjesdfnvjn dfjvnsfjdvgnkj fdgnvskjdfvgnsjkd fvgnsirkdvfnksjdnk dsfjk
             </div>
         </div>
     </div>
@@ -63,20 +60,60 @@
 <div class="row">
     <div class="col-md-6">
         <h6>Ended courses: </h6>
-        <div class="col-md-3" ng-repeat="course in user.endedCourses">
+        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'ended'}">
             {{course.Name}}
         </div>
-        <button ng-click="show_all_endedCourses(user.Id)">Show all</button>
+        <button data-toggle="modal" data-target="#modal-end-courses">Show all</button>
     </div>
     <div class="col-md-6">
         <h6>Courses for now: </h6>
-        <div class="col-md-3" ng-repeat="course in user.Courses">
+        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'continuing'}">
             {{course.Name}}
         </div>
-        <button ng-click="show_all_courses(user.Id)"> Show all</button>
+        <button data-toggle="modal" data-target="#modal-cont-courses"> Show all</button>
     </div>
 </div>
 
-<button ng-click="change_user_data(user.Id)" ng-class="(user.Id == User.Id) ? '' : 'hidden'">
-    Change profile data
-</button>
+    <button ng-click="change_user_data(user.Id)" ng-class="(user.Id == User.Id) ? '' : 'hidden'">
+        Change profile data
+    </button>
+    <br/>
+    <button ng-click="logout()" ng-class="(user.Id == User.Id) ? '' : 'hidden'">
+        Logout
+    </button>
+</span>
+
+<!-- Modal windows for all courses -->
+<div class="modal fade" id="modal-cont-courses" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Courses for now</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" ng-repeat="course in user.Courses | filter:{status:'continuing'}">
+                    {{course.Name}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal-end-courses" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ended courses</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" ng-repeat="course in user.Courses | filter:{status:'ended'}">
+                    {{course.Name}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

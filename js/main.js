@@ -1,67 +1,15 @@
+var isAuthorised = false;
+var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/search.png", "content/icons/screwdriver1.png"];
+var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/searchDark.png", "content/icons/screwdriver1Dark.png"];
+
+var pageID = "#inBody";
+
+
 $(document).ready(function () {
-	var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/calendar.png", "content/icons/screwdriver1.png"];
-	var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/calendarDark.png", "content/icons/screwdriver1Dark.png"];
 
-	var pageID = "#allCourses";
-	$(pageID).attr("style","width:100%;display:block");
-	var isAuthorised = true;
-	if (document.cookie != "")
-		isAuthorised = true;
-
-	
 	$('.item').click(function(event) {
-		resetMenuIcons()
-		$('.item').removeClass("chosen");
-		$(this).addClass("chosen");
-		var elem = this.id;	
-
-		switch (elem) {
-			case 'one': {
-				//color = "#39b5c9";
-				if (isAuthorised) {
-					animatePageChange("#userInfo", this, 0);
-				} else {
-					//$('.item').addClass("chosen");
-					//$(this).removeClass("chosen");
-					login_selected();
-				}
-			}break;
-			case 'two': {
-				//color = "#3997c9";
-				animatePageChange("#allCourses", this, 1);
-			}break;
-			case 'three': {
-				//color = "#3979c9";
-				animatePageChange("#calendar", this, 2);
-			}break;
-			case 'four': {
-				//color = "#3965c9";
-				animatePageChange("#settings", this, 3);
-			}
-		}
-		
-		
+		changeMenu(this);
 	});
-
-	function animatePageChange(newPageID, elem, iconIndex){
-		$(pageID).animate({ width:"0" },400, function() {
-			$(pageID).attr("style","display:none");
-			pageID = newPageID;
-			$(pageID).attr("style","display:block");
-			$(pageID).animate({ width:"100%" },400);
-		});
-		var img = elem.firstChild.nextSibling;
-		console.log(img);
-		img.src = menuIconsChosen[iconIndex];
-	}
-
-	function resetMenuIcons() {
-		var items = document.getElementsByClassName("item");
-		for (var i = 0; i < items.length; i++) {
-			var item = items[i].firstChild.nextSibling;
-			item.src = menuIcons[i];
-		}
-	}
 
  $(function() {
 
@@ -78,13 +26,6 @@ $(document).ready(function () {
     }
   });
 });
-
-	$('#user').click(function(event) { 
-		login_selected();
-	});
-
-
-
 
 
 //pop-up for sign-in/sign-up
@@ -201,7 +142,61 @@ var formModal = $('.cd-user-modal'),
 		  	})
 		});
 	}
+
+	$('#user, #0').click(function(event) {
+		if (!isAuthorised)
+			login_selected();
+	});
 });
+
+function animatePageChange(elem, iconIndex){
+	//$(pageID).animate({ width:"0%" },500);
+	$(pageID).animate({ width:"0" },400, function() {
+		$(pageID).animate({ width:"100%" },400);
+	});
+	var img = elem.firstChild.nextSibling;
+	img.src = menuIconsChosen[iconIndex];
+}
+
+function resetMenuIcons() {
+	var items = document.getElementsByClassName("item");
+	for (var i = 0; i < items.length; i++) {
+		var item = items[i].firstChild.nextSibling;
+		item.src = menuIcons[i];
+	}
+}
+
+function changeMenu(item) {
+	if (!(!isAuthorised && item.id == '0')) {
+		resetMenuIcons();
+		$('.item').removeClass("chosen");
+		$(item).addClass("chosen");
+	}
+	var elem = item.id;
+
+	switch (elem) {
+		case '0': {
+			//color = "#39b5c9";
+			if (isAuthorised) {
+				animatePageChange(item, 0);
+			} else {
+				//login_selected();
+			}
+		}break;
+		case '1': {
+			//color = "#3997c9";
+			animatePageChange(item, 1);
+		}break;
+		case '2': {
+			//color = "#3979c9";
+			animatePageChange(item, 2);
+		}break;
+		case '3': {
+			//color = "#3965c9";
+			animatePageChange(item, 3);
+		}
+	}
+}
 
 //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
 jQuery.fn.putCursorAtEnd = function() {

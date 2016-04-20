@@ -35,7 +35,7 @@ xsigin/signup popup
   position: relative;
   width: 90%;
   max-width: 600px;
-  background: #FFF;
+  background: #e0c38a;
   margin: 3em auto 4em;
   cursor: auto;
   -webkit-transform: translateY(-30px);
@@ -76,14 +76,14 @@ xsigin/signup popup
 }
 
 .cd-user-modal-container .cd-switcher a.selected {
-  //background: #FFF;
-  background-color: #3997c9;
-  color: #FFF;
+  //background: #e0c38a;
+  background-color: #9c4717;
+  color: #e0c38a;
 }
 
 .cd-user-modal-container .cd-switcher a:hover {
-  background-color: #3997c9;
-  color: #FFF;
+  background-color: #9c4717;
+  color: #e0c38a;
 }
 
 @media only screen and (min-width: 600px) {
@@ -177,8 +177,8 @@ xsigin/signup popup
 .cd-form input[type=submit] {
   padding: 16px 0;
   cursor: pointer;
-  background: #3997c9;//#2f889a;
-  color: #FFF;
+  background: #9c4717;//#2f889a;
+  color: #e0c38a;
   font-weight: bold;
   border: none;
   -webkit-appearance: none;
@@ -189,7 +189,7 @@ xsigin/signup popup
 }
 .no-touch .cd-form input[type=submit]:hover, .no-touch .cd-form input[type=submit]:focus {
   background: white;//#3599ae;
-  color: #3997c9;
+  color: #9c4717;
   outline: none;
 }
 .cd-form .hide-password {
@@ -218,7 +218,7 @@ xsigin/signup popup
   background: rgba(215, 102, 102, 0.9);
   padding: .8em;
   z-index: 2;
-  color: #FFF;
+  color: #e0c38a;
   font-size: 13px;
   font-size: 0.8125rem;
   border-radius: 0.25em;
@@ -293,7 +293,7 @@ xsigin/signup popup
   font-size: 0.875rem;
 }
 .cd-form-bottom-message a {
-  color: #FFF;
+  color: #e0c38a;
   text-decoration: underline;
 }
 

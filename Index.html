@@ -29,9 +29,9 @@
 <div class="row"  id="menu" ng-class="{{User == null}} ? '' : 'hidden'">
     <div class="col-md-12">
         <ul>
-            <li><a ng-href="#/courses" id="chosen">Main</a></li>
-            <li><a ng-href="#/courses#main">Search</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
+            <li><a href="" data-ng-click="go_to_filtering()">Search</a></li>
+            <li><a href="">About</a></li>
             <li id="user"><a href="#" >LogIn</a></li>
         </ul>
     </div>
@@ -53,41 +53,25 @@
     <!--<div class="col-md-12 buttonStart"><span class="buttonStartBorder">Start now! </br> &#8659;</span></div>-->
     <div class = "col-md-12" id="main">
         <div class="col-md-1 col-sm-2 navigation">
-            <div class="item verticalText"  id="one" data-ng-click="show_user_data(User.Id)">
+            <div class="item verticalText"  id="0" data-ng-click="show_user_data(User.Id)">
                 <img src="content/icons/hat.png">
-                Авторизація
+                <span ng-if="User == null">LogIn</span>
             </div>
-            <div class="item chosen"  id="two"  data-ng-click="show_all_courses()">
+            <div class="item chosen"  id="1"  data-ng-click="show_all_categories()">
                 <img src="content/icons/directionDark.png">
             </div>
-            <div class="item"  id = "three">
-                <img src="content/icons/calendar.png">
+            <div class="item"  id = "2"  data-ng-click="go_to_filtering()">
+                <img src="content/icons/search.png">
             </div>
-            <div class="item"  id = "four">
+            <div class="item"  id = "3">
                 <img src="content/icons/screwdriver1.png">
             </div>
         </div>
 
         <div class="col-md-11 col-sm-10 body">
 
-            <div class = "inBody" ng-view></div>
-            <!--<div class = "inBody" id ="userInfo">
-                <ng-include src="userTemplate"></ng-include>
-            </div>
-            <div class = "inBody" id ="allCourses">
-                <ng-include src="coursesTemplate"></ng-include>
-                <!--  </div>
-                <div class = "inBody" id ="allMap">
-                     <div class = "col-md-6 map">
-                         <div id = "map"> </div>
-                     </div>
-                     </div>-->
+            <div class = "inBody" ng-view id="inBody"></div>
 
-           <!-- </div>
-            <div class = "inBody" id = "calendar">
-                <ng-include src="'_partialViews/userInfo.html'"></ng-include>
-            </div>
-            <div class = "inBody" id = "settings"> </div>-->
         </div>
     </div>
 
@@ -100,8 +84,8 @@
 <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
     <div class="cd-user-modal-container" data-ng-controller="UserCtrl"> <!-- this is the container wrapper -->
         <ul class="cd-switcher">
-            <li><a href="#0">Sign in</a></li>
-            <li><a href="#0">New account</a></li>
+            <li><a href="#">Sign in</a></li>
+            <li><a href="#">New account</a></li>
         </ul>
 
         <div id="cd-login"> <!-- log in form -->
@@ -117,7 +101,7 @@
                     <label class="image-replace cd-password" for="signin-password">Password</label>
                     <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password"
                            data-ng-model="user.pass" name="password">
-                    <!--	<a href="#0" class="hide-password">Hide</a>-->
+                    <!--	<a href="#" class="hide-password">Hide</a>-->
                     <span class="cd-error-message">Password error!</span>
                 </p>
 
@@ -127,22 +111,16 @@
                 </p>
 
                 <p class="fieldset">
-                    <input class="full-width" type="submit" value="Login" data-ng-click="authorize(user)">
+                    <button class="full-width" type="submit" data-ng-click="authorize(user)"> Login </button>
                 </p>
             </form>
 
-            <p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
-            <!-- <a href="#0" class="cd-close-form">Close</a> -->
+            <p class="cd-form-bottom-message"><a href="#">Forgot your password?</a></p>
+            <!-- <a href="#" class="cd-close-form">Close</a> -->
         </div> <!-- cd-login -->
 
         <div id="cd-signup"> <!-- sign up form -->
             <form class="cd-form">
-                <p class="fieldset">
-                    <label class="image-replace cd-username" for="signup-username">Username</label>
-                    <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username"
-                           data-ng-model="user.login">
-                    <span class="cd-error-message">Username error!</span>
-                </p>
 
                 <p class="fieldset">
                     <label class="image-replace cd-email" for="signup-email">E-mail</label>
@@ -161,12 +139,12 @@
 
                 <p class="fieldset">
                     <!--	<input type="checkbox" id="accept-terms">
-                        <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+                        <label for="accept-terms">I agree to the <a href="#">Terms</a></label>
                     </p>-->
 
                 <p class="fieldset">
-                    <input class="full-width has-padding" type="submit" value="Create account" data-ng-click="register(user)">
-                </p>
+                    <button class="full-width has-padding" type="submit" data-ng-click="register(user)"> Create account</button>
+            </p>
             </form>
 
             <!-- <a href="#0" class="cd-close-form">Close</a> -->
@@ -187,9 +165,9 @@
                 </p>
             </form>
 
-            <p class="cd-form-bottom-message"><a href="#0">Back to log-in</a></p>
+            <p class="cd-form-bottom-message"><a href="#">Back to log-in</a></p>
         </div> <!-- cd-reset-password -->
-        <a href="#0" class="cd-close-form">Close</a>
+        <a href="#" class="cd-close-form">Close</a>
     </div> <!-- cd-user-modal-container -->
 </div> <!-- cd-user-modal -->
 

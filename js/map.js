@@ -1,25 +1,24 @@
 $(document).ready(function () {
-	initialize();
+	//initialize();
 });
+
+var map;
 
 //инициализация карты в div "map"
 function initialize() {
+
     var haightAshbury = new google.maps.LatLng(50.449696, 30.4588);//(долгота, широта)
     var mapOptions = {
-        zoom: 16,//масштаб
+        zoom: 14,//масштаб
         center: haightAshbury,//позиционируем карту на заданые координаты
         mapTypeId: google.maps.MapTypeId.ROADMAP//задаем тип карты
     };    
     map = new google.maps.Map(document.getElementById("map"), mapOptions);//инициализация карты
- 
-    google.maps.event.addListener(map, 'click', function (event) {
-        addMarker(event.latLng);
-    });//добавляем событие нажание мышки
 }
 //функция добавления маркера
-function addMarker(location) {
+function addMarker(lat, lng, contentString) {
  
-    var shadow = new google.maps.MarkerImage('/Images/roles.png',    
+/*    var shadow = new google.maps.MarkerImage('/Images/roles.png',
     new google.maps.Size(37, 32),
     new google.maps.Point(0, 0),
     new google.maps.Point(0, 32)); // Теневое изображение
@@ -28,13 +27,31 @@ function addMarker(location) {
       new google.maps.Size(20, 32),
       new google.maps.Point(0, 0),
       new google.maps.Point(0, 32)); //изображение маркера
- 
+ */
     marker = new google.maps.Marker({
-        position: location,
+        position: new google.maps.LatLng(lat, lng),//location,
         map: map,
-        shadow: shadow,
-        icon: image,
-        title: "My title!)",
+        //shadow: shadow,
+        //icon: image,
+        //title: title,
         zIndex: 999
     });//добавление маркера
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+
+    return marker;
+}
+
+function toggleBounce(marker) {
+    if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+    } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
 }

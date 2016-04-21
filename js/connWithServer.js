@@ -70,6 +70,22 @@ diplomaApp.service('dataService', function() {
     };
 });
 
+//DIRECTIVE for password confirmation
+diplomaApp.directive('pwCheck', [function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck;
+                elem.add(firstPassword).on('keyup', function () {
+                    scope.$apply(function () {
+                        var v = elem.val()===$(firstPassword).val();
+                        ctrl.$setValidity('pwmatch', v);
+                    });
+                });
+            }
+        }
+    }]);
+
 //CONTROLLERS for each part of the portal
 
 //menu and authorization controller
@@ -93,48 +109,6 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
         $location.url("/search#main");
     }
 
-    $scope.authorize = function (user) {
-        var remember = document.getElementById("remember-me").checked;
-        if (user.login != undefined && user.pass != undefined)
-            $http({
-                method: 'GET',
-                //url: '/api/user',
-                params: { email: user.login, password: user.pass, remember: remember },
-                headers: { 'Content-Type': 'application/JSON' }
-            }).
-                success(function (data) {
-                    console.log(data);
-                    $scope.User.Id = data;
-                    //push id to service
-                    dataService.addUserId($scope.User.Id);
-                    //change trigger for front-end js
-                    isAuthorised = true;
-                })
-                .error(function (error) {
-                    console.log(error);
-                });
-    }
-
-    $scope.register = function (user) {
-        if (user.pass != undefined && user.email != undefined)
-            $http({
-                method: 'POST',
-                url: '/api/users/register',
-                params: { first_name: user.first_name, second_name: user.second_name, last_name: user.last_name,
-                    email: user.email, password: user.pass  },
-                headers: { 'Content-Type': 'application/JSON' }
-            }).
-                success(function (data) {
-                    console.log(data);
-                    changeMenu(document.getElementById('1'));
-                    $location.url("/courses#main");
-                })
-                .error(function (error) {
-                    //Showing error message
-                    console.log(error);
-                });
-    }
-
 }]);
 
 //user data controller
@@ -142,12 +116,55 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
     function ($scope, $http, $location, dataService, $routeParams) {
         //profile user
         $scope.user = {};
-        $scope.user.Id = $routeParams.userId;
+        $scope.user.id = $routeParams.userId;
 
         //this user
         $scope.User = {};
-        $scope.User.Id = dataService.getUserId();
+        $scope.User.id = dataService.getUserId();
 //    $scope.userTemplate = "_partialViews/userInfo.html";
+
+        $scope.authorize = function (user) {
+            var remember = document.getElementById("remember-me").checked;
+            if (user.login != undefined && user.pass != undefined)
+                $http({
+                    method: 'GET',
+                    //url: '/api/user',
+                    params: { email: user.email, password: user.pass, remember: remember },
+                    headers: { 'Content-Type': 'application/JSON' }
+                }).
+                    success(function (data) {
+                        console.log(data);
+                        $scope.User.id = data;
+                        //push id to service
+                        dataService.addUserId($scope.User.id);
+                        //change trigger for front-end js
+                        isAuthorised = true;
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+        }
+
+        $scope.register = function (user) {
+            console.log(user);
+            if (user.pass != undefined && user.email != undefined)
+                $http({
+                    method: 'POST',
+                    //url: '/api/users/register',
+                    params: { first_name: user.first_name, second_name: user.second_name, last_name: user.last_name,
+                        email: user.email, password: user.pass  },
+                    headers: { 'Content-Type': 'application/JSON' }
+                }).
+                    success(function (data) {
+                        console.log(data);
+                        changeMenu(document.getElementById('1'));
+                        $location.url("/courses#main");
+                    })
+                    .error(function (error) {
+                        //Showing error message
+                        console.log(error);
+                    });
+        }
 
         $scope.show_user_data = function (userId) {
             $http({
@@ -204,7 +221,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                     console.log(data);
 
                     changeMenu(document.getElementById('0'));
-                    $location.url("/user/:" + $scope.user.Id + "/show");
+                    $location.url("/user/:" + $scope.user.id + "/show");
                 })
                 .error(function (error) {
                     console.log(error);
@@ -227,50 +244,17 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         }
 
         if (JSON.stringify($routeParams) !== '{}')
-            $routeParams.action == "show" ? $scope.show_user_data($scope.user.Id) : $scope.change_user_data($scope.user.Id);
+            $routeParams.action == "show" ? $scope.show_user_data($scope.user.id) : $scope.change_user_data($scope.user.id);
     }]);
 
 //courses controller
 diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataService', '$routeParams', function ($scope, $http, $location, dataService, $routeParams) {
     //this user
     $scope.User = {};
-    $scope.User.Id = dataService.getUserId();
+    $scope.User.id = dataService.getUserId();
     $scope.courses = {};
     var markers = [];
     $scope.show_all_categories = function () {
-        $scope.categories = [
-            {
-                Name: 'One',
-                Id: 1,
-                group: 'applicants',
-                subcategories: [
-                    {
-                        Name: 'OneOne',
-                        Id: 11
-                    },
-                    {
-                        Name: 'OneTwo',
-                        Id: 12
-                    }
-                ]
-            },
-            {
-                Name: 'Two',
-                Id: 2,
-                group: 'students',
-                subcategories: [
-                    {
-                        Name: 'TwoOne',
-                        Id: 21
-                    },
-                    {
-                        Name: 'TwoTwo',
-                        Id: 22
-                    }
-                ]
-            }
-        ]
- /*
         $http({
             method: 'GET',
             //url: '/api/user',
@@ -283,7 +267,6 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
             .error(function (error) {
                 console.log(error);
             });
-*/
     }
 
     $scope.show_filtered_courses = function(categoryIdsArr, subcategoryIdsArr, teacherIdsArr) {
@@ -317,8 +300,8 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
                 for (var i = 0; i < coords.length; i++) {
                     var content = "";
                     for (var j = 0; j < courses.length; j++) {
-                        if (courses[j].coordId == coords[i].Id)
-                            content += "<div class='row' data-ng-click='show_course_data(" + courses[j].Id + ")'> " + courses[j].Name + "</div>";
+                        if (courses[j].coordId == coords[i].id)
+                            content += "<div class='row' data-ng-click='show_course_data(" + courses[j].id + ")'> " + courses[j].name + "</div>";
                     }
                     markers[i].marker = addMarker(coords.lat, coords.lng, content);
                 }
@@ -330,7 +313,7 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
 
     $scope.bounce_marker = function (index) {
         for (var i = 0; i < markers.length; i++)
-            if (markers[i].Id === index) {
+            if (markers[i].id === index) {
                 toggleBounce(markers[i].marker);
                 break;
             }
@@ -397,13 +380,13 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         $http({
             method: 'GET',
             //url: '/api/user',
-            params: { userId: dataService.getUserId(), courseId: $scope.course.Id },
+            params: { userId: dataService.getUserId(), courseId: $scope.course.id },
             headers: { 'Content-Type': 'application/JSON' }
         }).
             success(function (data) {
                 console.log(data);
                 changeMenu(document.getElementById('0'));
-                $location.url("/user/:" + userId + "/show");
+                $location.url("/user/:" + dataService.getUserId() + "/show");
             })
             .error(function (error) {
                 console.log(error);

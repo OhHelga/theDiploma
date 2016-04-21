@@ -81,8 +81,8 @@
 
 </span>
 
-<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
-    <div class="cd-user-modal-container" data-ng-controller="UserCtrl"> <!-- this is the container wrapper -->
+<div class="cd-user-modal"  data-ng-controller="UserCtrl"> <!-- this is the entire modal form, including the background -->
+    <div class="cd-user-modal-container"> <!-- this is the container wrapper -->
         <ul class="cd-switcher">
             <li><a href="#">Sign in</a></li>
             <li><a href="#">New account</a></li>
@@ -93,7 +93,7 @@
                 <p class="fieldset">
                     <label class="image-replace cd-email" for="signin-email">E-mail</label>
                     <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail"
-                           data-ng-model="user.login" name="email">
+                           data-ng-model="user.email" name="email">
                     <span class="cd-error-message">Email error!</span>
                 </p>
 
@@ -101,7 +101,7 @@
                     <label class="image-replace cd-password" for="signin-password">Password</label>
                     <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password"
                            data-ng-model="user.pass" name="password">
-                    <!--	<a href="#" class="hide-password">Hide</a>-->
+                    	<a href="#" class="hide-password">Hide</a>
                     <span class="cd-error-message">Password error!</span>
                 </p>
 
@@ -120,31 +120,63 @@
         </div> <!-- cd-login -->
 
         <div id="cd-signup"> <!-- sign up form -->
-            <form class="cd-form">
+            <form class="cd-form" name="registerForm">
+                <p class="fieldset">
+                    <label class="image-replace cd-first_name" for="signup-first_name">First name</label>
+                    <input class="full-width has-padding has-border" id="signup-first_name" type="text" placeholder="First name"
+                           data-ng-model="user.first_name" required>
+                    <span class="cd-error-message">Name error!</span>
+                </p>
+                <p class="fieldset">
+                    <label class="image-replace cd-second_name" for="signup-second_name">Second name</label>
+                    <input class="full-width has-padding has-border" id="signup-second_name" type="text" placeholder="Second name"
+                           data-ng-model="user.second_name" required>
+                    <span class="cd-error-message">Name error!</span>
+                </p>
+                <p class="fieldset">
+                    <label class="image-replace cd-last_name" for="signup-last_name">Last name</label>
+                    <input class="full-width has-padding has-border" id="signup-last_name" type="text" placeholder="Last name"
+                           data-ng-model="user.last_name" required>
+                    <span class="cd-error-message">Name error!</span>
+                </p>
 
                 <p class="fieldset">
                     <label class="image-replace cd-email" for="signup-email">E-mail</label>
                     <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail"
-                           data-ng-model="user.email">
+                           data-ng-model="user.email" required>
                     <span class="cd-error-message">Email error!</span>
                 </p>
 
                 <p class="fieldset">
                     <label class="image-replace cd-password" for="signup-password">Password</label>
-                    <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password"
-                           data-ng-model="user.pass">
-                    <!--	<a href="#0" class="hide-password">Hide</a> -->
-                    <span class="cd-error-message">Password error!</span>
+                    <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password"  name="password"
+                           data-ng-model="user.pass" required><!--ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"-->
+                    	<a href="#" class="hide-password">Hide</a>
+                    <span class="cd-error-message">
+                        Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)
+                            and be between 8 and 20 characters.
+                    </span>
                 </p>
 
                 <p class="fieldset">
-                    <!--	<input type="checkbox" id="accept-terms">
-                        <label for="accept-terms">I agree to the <a href="#">Terms</a></label>
-                    </p>-->
+                    <label class="image-replace cd-password" for="signup-confirm_password">Confirm password</label>
+                    <input class="full-width has-padding has-border" id="signup-confirm_password" type="text"  placeholder="Confirm password"
+                           data-ng-model="user.pass_confirm" required  name="password_confirm"  pw-check="signup-password">
+                    <a href="#" class="hide-password">Hide</a>
+                <div class="msg-block" ng-show="registerForm.$error">
+                    <span class="msg-error" ng-show="registerForm.password_confirm.$error.pwmatch">Passwords don't match.</span>
+                </div>
+                </p>
 
                 <p class="fieldset">
-                    <button class="full-width has-padding" type="submit" data-ng-click="register(user)"> Create account</button>
-            </p>
+                    Please go to your e-mail and follow the instructions.
+                    <!--	<input type="checkbox" id="accept-terms">
+                        <label for="accept-terms">I agree to the <a href="#">Terms</a></label>-->
+                </p>
+
+                <p class="fieldset">
+                    <button class="full-width has-padding" ng-click="register(user)"> Create account</button>
+                </p>
             </form>
 
             <!-- <a href="#0" class="cd-close-form">Close</a> -->

@@ -2,7 +2,7 @@
  * Created by MorgensternUser on 05.04.2016.
  */
 //Defining an Angular module
-var diplomaApp = angular.module('diplomaApp', ['ngRoute']);
+var diplomaApp = angular.module('diplomaApp', ['ngRoute', 'integralui']);
 
 //CONFIGURATION to resolve urls, templates and controllers
 diplomaApp.config(['$routeProvider',
@@ -105,7 +105,6 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
     }
 
     $scope.go_to_filtering = function() {
-        changeMenu(document.getElementById('2'));
         $location.url("/search#main");
     }
 
@@ -121,11 +120,10 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         //this user
         $scope.User = {};
         $scope.User.id = dataService.getUserId();
-//    $scope.userTemplate = "_partialViews/userInfo.html";
 
         $scope.authorize = function (user) {
             var remember = document.getElementById("remember-me").checked;
-            if (user.login != undefined && user.pass != undefined)
+            //if (user.email != undefined && user.pass != undefined)
                 $http({
                     method: 'GET',
                     //url: '/api/user',
@@ -147,7 +145,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
 
         $scope.register = function (user) {
             console.log(user);
-            if (user.pass != undefined && user.email != undefined)
+            //if (user.pass != undefined && user.email != undefined)
                 $http({
                     method: 'POST',
                     //url: '/api/users/register',
@@ -157,7 +155,6 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                 }).
                     success(function (data) {
                         console.log(data);
-                        changeMenu(document.getElementById('1'));
                         $location.url("/courses#main");
                     })
                     .error(function (error) {
@@ -167,6 +164,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         }
 
         $scope.show_user_data = function (userId) {
+            changeMenu(document.getElementById('0'));
             $http({
                 method: 'GET',
                 //url: '/api/user',
@@ -183,6 +181,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         }
 
         $scope.change_user_data = function (userId) {
+            changeMenu(document.getElementById('0'));
             $http({
                 method: 'GET',
                 //url: '/api/user',
@@ -203,6 +202,9 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             //get new avatar
             var f = document.getElementById('file').files[0],
                 r = new FileReader();
+            //???
+            //user.avatar = f;
+            //or binary data?
             r.onloadend = function (e) {
                 //$scope.data = e.target.result;
                 user.Avatar = r.result;
@@ -220,7 +222,6 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                 .success(function (data) {
                     console.log(data);
 
-                    changeMenu(document.getElementById('0'));
                     $location.url("/user/:" + $scope.user.id + "/show");
                 })
                 .error(function (error) {
@@ -235,7 +236,6 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                 headers: {'Content-Type': 'application/JSON'}
             }).success(function () {
                     dataService.addUserId(0);
-                    changeMenu(document.getElementById('1'));
                     $location.url("/courses#main");
                 })
                 .error(function (error) {
@@ -255,6 +255,7 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
     $scope.courses = {};
     var markers = [];
     $scope.show_all_categories = function () {
+        changeMenu(document.getElementById('1'));
         $http({
             method: 'GET',
             //url: '/api/user',
@@ -278,11 +279,11 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
             teacherIds: teacherIds
         };
         dataService.addFilter(filter);
-        changeMenu(document.getElementById('1'));
         $location.url("/courses/filtered#main");
     }
 
     $scope.show_filtered_courses_data = function() {
+        changeMenu(document.getElementById('1'));
         var filter = dataService.getFilter();
         //initialize the map
         initialize();
@@ -320,12 +321,10 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
     }
 
     $scope.show_course_data = function(courseId) {
-        changeMenu(document.getElementById('1'));
         $location.url("/course/" + courseId);
     }
 
     $scope.go_to_filtering = function() {
-        changeMenu(document.getElementById('2'));
         $location.url("/search#main");
     }
 
@@ -333,14 +332,95 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
 }]);
 
 //advanced search controller
-diplomaApp.controller('SearchCtrl', ['$scope', '$location', 'dataService', function ($scope, $location, dataService) {
+diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataService', 'IntegralUITreeViewService', function ($scope, $location, $http, dataService, $treeService) {
     $scope.filter = dataService.getFilter();
+    $scope.teachersToAdd = [], $scope.addedTeachers = [];
+    $scope.categories = [];
+
+    $scope.treeName = "treeCategories";
+    $scope.itemIcon = "icons-medium empty-doc";
+    $scope.checkStates = ['checked', 'unchecked'];
+    $scope.currentState = 'checked';
+    $scope.checkList = [];
+
+    $scope.checkBoxSettings = {
+        autoCheck: true,
+        threeState: false
+    }
+
+    $scope.show_data_for_search = function(){
+        changeMenu(document.getElementById('2'));
+        $http({
+            method: 'GET',
+            //url: '/api/user',
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+            .success(function (data) {
+                console.log(data);
+
+                for (var i = 0; i < $scope.teachersToAdd.length; i++) {
+                    $scope.teachersToAdd[i].FullName = $scope.teachersToAdd[i].first_name + " " + $scope.teachersToAdd[i].second_name + " " + $scope.teachersToAdd[i].last_name;
+                    for (var j = 0; j < filter.teacherIds; j++)
+                        if ($scope.filter.teacherIds[j] == $scope.teachersToAdd[i].id)
+                            $scope.teachersToAdd[i].isAdded = true;
+                        else
+                            $scope.teachersToAdd[i].isAdded = false;
+                }
+                for (var i = 0; i < $scope.preCategories.length; i++) {
+                    for (var j = 0; j < $scope.preCategories[i].subcategories.length; j++) {
+                        $scope.categories[i].subcategories[j].checkState = 'unchecked';
+                        $scope.categories[i].subcategories[j].text = $scope.preCategories[i].subcategories[j].name;
+                    }
+                    $scope.categories[i].text = $scope.preCategories[i].name;
+                    $scope.categories[i].checkState = 'unchecked';
+                }
+
+                for (var i = 0; i < $scope.preCategories.length; i++) {
+                    for (var j = 0; j < $scope.preCategories[i].subcategories.length; j++)
+                        for (var k = 0; k < $scope.filter.categoryIds.length; k++) {
+                            if ($scope.filter.categoryIds[k] == $scope.preCategories[i].subcategories[j].id)
+                                $scope.categories[i].subcategories[j].checkState = 'checked';
+                            else if ($scope.filter.categoryIds[k] == $scope.preCategories[i].id)
+                                $scope.categories[i].checkState = 'checked';
+                        }
+                }
+            })
+            .error(function (error) {
+                console.log(error);
+            });
+    }
+
+    $scope.add_teachers = function() {
+        $scope.addedTeachers = [];
+        for (var i = 0; i < $scope.teachersToAdd; i++)
+            if ($scope.teachersToAdd[i].isAdded)
+                $scope.addedTeachers.push($scope.teachersToAdd[i]);
+    }
+
+    $scope.remove_teacher = function(teacher) {
+        var index = $scope.teachers.indexOf(teacher);
+        $scope.teachers.splice(index, 1);
+    }
 
     $scope.filter_courses = function() {
+        $scope.checkList = $treeService.getCheckList($scope.treeName, $scope.currentState);
+        $scope.filter = {};
+
+        for (var i = 0; i < $scope.checkList.length; i++)
+            $scope.filter.categoryIds.push($scope.checkList[i].id);
+
+        for (var i = 0; i < $scope.addedTeachers.length; i++)
+            $scope.filter.teacherIds.push($scope.addedTeachers[i].id);
+
         dataService.addFilter($scope.filter);
         $location.url("/courses/filtered#main");
     }
 
+    $scope.clear_filtering = function() {
+
+    }
+
+    $scope.show_data_for_search();
 }]);
 
 //course info controller
@@ -350,6 +430,7 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
     $scope.course = {};
 
     $scope.show_course_data = function (courseId) {
+        changeMenu(document.getElementById('1'));
         //initialize the map
         initialize();
         addMarker(50.448029, 30.451108, "Course name");
@@ -372,7 +453,6 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
     $scope.show_course_data($routeParams.courseId);
 
     $scope.go_to_main = function() {
-        changeMenu(document.getElementById('1'));
         $location.url("/courses#main");
     }
 
@@ -385,7 +465,6 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         }).
             success(function (data) {
                 console.log(data);
-                changeMenu(document.getElementById('0'));
                 $location.url("/user/:" + dataService.getUserId() + "/show");
             })
             .error(function (error) {

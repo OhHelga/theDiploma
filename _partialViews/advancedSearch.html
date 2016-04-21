@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<span data-ng-controller="SearchCtrl">
+<div class="row" style="height:50%">
+    <div class="col-md-4" ng-repeat="category in categories">
+        <!--<span>{{category.name}}</span>-->
+        <iui-treeview name="{{treeName}}" class="directive" items="categories" item-icon="itemIcon" show-check-boxes="true" checkbox-settings="checkBoxSettings"></iui-treeview>
+    </div>
+</div>
+<div class="row" style="height:45%">
+    <span ng-repeat="teacher in addedTeachers">
+        {{teacher.FullName.join(', ')}} <span data-ng-click="remove_teacher(teacher)">&#10007; </span>
+    </span>
+    <br/>
+    <button data-toggle="modal" data-target="#modal-cont-teachers"> Add teachers</button>
+</div>
+<div class="row">
+    <button ng-click="clear_filtering()"> Clear all </button>
+    <button ng-click="filter_courses()"> Find </button>
+</div>
 
-</body>
-</html>
+<div class="modal fade" id="modal-cont-teachers" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Teachers</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="teacher in teachersToAdd">
+                        <label>
+                            <input type="checkbox" ng-model="teacher.isAdded">
+                            {{teacher.FullName}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="add_teachers()"> Add selected </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</span>

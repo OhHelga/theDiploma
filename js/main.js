@@ -61,10 +61,11 @@ var formModal = $('.cd-user-modal'),
 
 	//hide or show password
 	$('.hide-password').on('click', function(){
+		console.log('hi');
 		var togglePass= $(this),
 			passwordField = togglePass.prev('input');
-		
-		( 'password' == passwordField.attr('type') ) ? passwordField.attr('type', 'text') : passwordField.attr('type', 'password');
+		console.log(togglePass);
+		( 'password' == passwordField.prop('type') ) ? passwordField.prop('type', 'text') : passwordField.prop('type', 'password');
 		( 'Hide' == togglePass.text() ) ? togglePass.text('Show') : togglePass.text('Hide');
 		//focus and move cursor to the end of input field
 		passwordField.putCursorAtEnd();

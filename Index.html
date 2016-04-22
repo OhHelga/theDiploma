@@ -47,7 +47,6 @@
         <ul>
             <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
             <li><a href="" data-ng-click="go_to_filtering()">Search</a></li>
-            <li><a href="">About</a></li>
             <li id="user"><a href="#" >LogIn</a></li>
         </ul>
     </div>
@@ -79,7 +78,7 @@
             <div class="item"  id = "2"  data-ng-click="go_to_filtering()" title="Search">
                 <img src="content/icons/search.png">
             </div>
-            <div class="item"  id = "3" title="Add course">
+            <div class="item"  id = "3"  data-ng-click="add_course()" title="Add course" ng-show="User.category == 'teacher'">
                 <img src="content/icons/pen.png">
             </div>
         </div>
@@ -131,7 +130,7 @@
                 </p>
             </form>
 
-            <p class="cd-form-bottom-message"><a href="#">Forgot your password?</a></p>
+          <!--  <p class="cd-form-bottom-message"><a href="#">Forgot your password?</a></p>-->
             <!-- <a href="#" class="cd-close-form">Close</a> -->
         </div> <!-- cd-login -->
 

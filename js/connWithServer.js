@@ -98,9 +98,8 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
     function ($scope, $http, $location) {
 
     $scope.show_user_data = function(userId) {
-        //if (userId != undefined) {
+        if (userId != undefined)
             $location.url("/user/:" + userId + "/show");
-        //}
     }
 
     $scope.show_all_categories = function() {
@@ -109,6 +108,10 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
 
     $scope.go_to_filtering = function() {
         $location.url("/search#main");
+    }
+
+    $scope.add_course = function() {
+        $location.url("/course/new/add");
     }
 }]);
 
@@ -326,10 +329,6 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
 
     $scope.show_course_data = function(courseId) {
         $location.url("/course/" + courseId + "/show");
-    }
-
-    $scope.add_course = function() {
-        $location.url("/course/new/add");
     }
 
     $scope.go_to_filtering = function() {

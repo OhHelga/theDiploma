@@ -49,6 +49,8 @@ xsigin/signup popup
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
+
+  //border: 0.08em solid #361a0e;
 }
 .cd-user-modal-container .cd-switcher:after {
   content: "";
@@ -74,7 +76,15 @@ xsigin/signup popup
   //color: #809191;
   color: #9c4717;
   margin: 2em 1em 0 1em;
+
+  border: 0.08em solid #9c4717;//#361a0e;
 }
+
+.fieldset button {
+  width: 100%;
+  padding: 1em;
+}
+
 
 .cd-user-modal-container .cd-switcher a.selected {
   //background: #e0c38a;
@@ -165,6 +175,7 @@ xsigin/signup popup
 }
 .cd-form input.has-border {
   border: 1px solid #d2d8d8;
+  //border: 0.08em solid #361a0e;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -272,7 +283,7 @@ xsigin/signup popup
     margin-bottom: 0;
   }
   .cd-form input.has-padding {
-    padding: 16px 20px 16px 50px;
+    //padding: 16px 20px 16px 50px;
   }
   .cd-form input[type=submit] {
     padding: 16px 0;

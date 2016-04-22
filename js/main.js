@@ -14,6 +14,7 @@ $(document).ready(function () {
  $(function() {
 
   $('a[href*=\\#]:not([href=\\#])').click(function() {
+	  alert('hi');
     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
       var target = $(this.hash);
       target = target.length ? target : $('[name=' + this.hash.slice(1) +']');

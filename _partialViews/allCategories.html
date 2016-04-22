@@ -19,7 +19,35 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding:1em">
         <!--most popular carousel-->
+        <div id="most-popular-carousel" class="carousel slide">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="row">
+                        <div class="col-sm-3" ng-repeat='course in courses1'>
+                            {{course.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+                        <div class="col-sm-3" ng-repeat='course in courses2'>
+                            {{course.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+                        <div class="col-sm-3" ng-repeat='course in courses3'>
+                            {{course.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="/#most-popular-carousel" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="/#most-popular-carousel" data-slide="next">›</a>
+        </div>
     </div>
 </div>

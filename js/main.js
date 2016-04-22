@@ -1,6 +1,6 @@
 var isAuthorised = false;
-var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/search.png", "content/icons/screwdriver1.png"];
-var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/searchDark.png", "content/icons/screwdriver1Dark.png"];
+var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/search.png", "content/icons/pen.png"];
+var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/searchDark.png", "content/icons/penDark.png"];
 
 var pageID = "#inBody";
 

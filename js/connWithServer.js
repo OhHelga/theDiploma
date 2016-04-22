@@ -458,11 +458,13 @@ diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataServic
 
 //course data controller
 diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataService', '$routeParams', function ($scope, $http, $location, dataService, $routeParams) {
-
+    if ($routeParams.action != "show")
+        changeMenu(document.getElementById('3'));
     $scope.course = {};
 
     $scope.get_course_data = function (courseId) {
-        changeMenu(document.getElementById('1'));
+        if ($routeParams.action == "show")
+            changeMenu(document.getElementById('1'));
         //initialize the map
         initialize();
         addMarker(50.448029, 30.451108, "Course name");

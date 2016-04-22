@@ -6,11 +6,20 @@
     </div>
 </div>
 <div class="row" style="height:45%">
-    <span ng-repeat="teacher in addedTeachers">
-        {{teacher.FullName.join(', ')}} <span data-ng-click="remove_teacher(teacher)">&#10007; </span>
-    </span>
-    <br/>
-    <button data-toggle="modal" data-target="#modal-cont-teachers"> Add teachers</button>
+    <div class="col-md-6">
+        <span ng-repeat="teacher in addedTeachers">
+            {{teacher.FullName.join(', ')}} <span data-ng-click="remove_teacher(teacher)">&#10007; </span>
+        </span>
+        <br/>
+        <button data-toggle="modal" data-target="#modal-cont-teachers"> Add teachers</button>
+    </div>
+    <div class="col-md-6">
+         <span ng-repeat="building in addedBuildings">
+            {{building.name.join(', ')}} <span data-ng-click="remove_building(building)">&#10007; </span>
+        </span>
+        <br/>
+        <button data-toggle="modal" data-target="#modal-cont-buildings"> Add buildings</button>
+    </div>
 </div>
 <div class="row">
     <button ng-click="clear_filtering()"> Clear all </button>
@@ -36,6 +45,30 @@
             </div>
             <div class="modal-footer">
                 <button ng-click="add_teachers()"> Add selected </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-cont-buildings" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Buildings</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="building in buildingsToAdd">
+                        <label>
+                            <input type="checkbox" ng-model="building.isAdded">
+                            {{building.name}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="add_buildings()"> Add selected </button>
             </div>
         </div>
     </div>

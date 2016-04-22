@@ -17,8 +17,13 @@ diplomaApp.config(['$routeProvider',
             },
             controller: 'CoursesCtrl'
         }).
-        when('/course/:courseId', {
-            templateUrl: '_partialViews/courseInfo.html',
+        when('/course/:courseId/:action', {
+            templateUrl: function(params) {
+                if (params.courses == "show")
+                    return '_partialViews/courseInfo.html'
+                else
+                    return '_partialViews/courseInfoChange.html'
+            },
             controller: 'CourseInfoCtrl'
         }).
         when('/search', {
@@ -88,26 +93,23 @@ diplomaApp.directive('pwCheck', [function () {
 
 //CONTROLLERS for each part of the portal
 
-//menu and authorization controller
+//menu controller
 diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService',
-    function ($scope, $http, $location, dataService) {
+    function ($scope, $http, $location) {
 
     $scope.show_user_data = function(userId) {
-        if (userId != undefined) {
-            changeMenu(document.getElementById('0'));
+        //if (userId != undefined) {
             $location.url("/user/:" + userId + "/show");
-        }
+        //}
     }
 
     $scope.show_all_categories = function() {
-        changeMenu(document.getElementById('1'));
         $location.url("/courses#main");
     }
 
     $scope.go_to_filtering = function() {
         $location.url("/search#main");
     }
-
 }]);
 
 //user data controller
@@ -163,7 +165,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                     });
         }
 
-        $scope.show_user_data = function (userId) {
+        $scope.get_user_data = function (userId) {
             changeMenu(document.getElementById('0'));
             $http({
                 method: 'GET',
@@ -179,7 +181,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                     console.log(error);
                 });
         }
-
+        /*
         $scope.change_user_data = function (userId) {
             changeMenu(document.getElementById('0'));
             $http({
@@ -196,7 +198,7 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                     console.log(error);
                 });
         }
-
+*/
         $scope.save_user_data = function (user) {
             $scope.data = "null";
             //get new avatar
@@ -244,7 +246,8 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         }
 
         if (JSON.stringify($routeParams) !== '{}')
-            $routeParams.action == "show" ? $scope.show_user_data($scope.user.id) : $scope.change_user_data($scope.user.id);
+            $scope.get_user_data($scope.user.id);
+            //$routeParams.action == "show" ? $scope.show_user_data($scope.user.id) : $scope.change_user_data($scope.user.id);
     }]);
 
 //courses controller
@@ -270,6 +273,7 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
             });
     }
 
+    //ACHTUNG! CLEAN THIS
     $scope.show_filtered_courses = function(categoryIdsArr, subcategoryIdsArr, teacherIdsArr) {
         var categoryIds = typeof categoryIdsArr !== 'undefined' ? categoryIdsArr : [];
         var subcategoryIds = typeof subcategoryIdsArr !== 'undefined' ? subcategoryIdsArr : [];
@@ -291,7 +295,7 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
         $http({
             method: 'GET',
             //url: '/api/user',
-            params: { categories: filter.categoryIds, teachers: filter.teacherIds },
+            params: { categories: filter.categoryIds, teachers: filter.teacherIds, buildings: filter.buildingIds },
             headers: { 'Content-Type': 'application/JSON' }
         })
             .success(function (data) {
@@ -321,7 +325,11 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
     }
 
     $scope.show_course_data = function(courseId) {
-        $location.url("/course/" + courseId);
+        $location.url("/course/" + courseId + "/show");
+    }
+
+    $scope.add_course = function() {
+        $location.url("/course/new/add");
     }
 
     $scope.go_to_filtering = function() {
@@ -335,6 +343,7 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
 diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataService', 'IntegralUITreeViewService', function ($scope, $location, $http, dataService, $treeService) {
     $scope.filter = dataService.getFilter();
     $scope.teachersToAdd = [], $scope.addedTeachers = [];
+    $scope.buildingsToAdd = [], $scope.addedBuildings = [];
     $scope.categories = [];
 
     $scope.treeName = "treeCategories";
@@ -366,6 +375,14 @@ diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataServic
                         else
                             $scope.teachersToAdd[i].isAdded = false;
                 }
+                for (var i = 0; i < $scope.buildingsToAdd.length; i++) {
+                    for (var j = 0; j < filter.buildingIds; j++)
+                        if ($scope.filter.buildingIds[j] == $scope.buildingsToAdd[i].id)
+                            $scope.buildingsToAdd[i].isAdded = true;
+                        else
+                            $scope.buildingsToAdd[i].isAdded = false;
+                }
+
                 for (var i = 0; i < $scope.preCategories.length; i++) {
                     for (var j = 0; j < $scope.preCategories[i].subcategories.length; j++) {
                         $scope.categories[i].subcategories[j].checkState = 'unchecked';
@@ -397,9 +414,21 @@ diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataServic
                 $scope.addedTeachers.push($scope.teachersToAdd[i]);
     }
 
+    $scope.add_buildings = function() {
+        $scope.addedBuildings = [];
+        for (var i = 0; i < $scope.buildingsToAdd; i++)
+            if ($scope.buildingsToAdd[i].isAdded)
+                $scope.addedBuildings.push($scope.buildingsToAdd[i]);
+    }
+
     $scope.remove_teacher = function(teacher) {
-        var index = $scope.teachers.indexOf(teacher);
-        $scope.teachers.splice(index, 1);
+        var index = $scope.addedTeachers.indexOf(teacher);
+        $scope.addedTeachers.splice(index, 1);
+    }
+
+    $scope.remove_building = function(building) {
+        var index = $scope.addedBuildings.indexOf(building);
+        $scope.addedBuildings.splice(index, 1);
     }
 
     $scope.filter_courses = function() {
@@ -412,24 +441,27 @@ diplomaApp.controller('SearchCtrl', ['$scope', '$location', '$http', 'dataServic
         for (var i = 0; i < $scope.addedTeachers.length; i++)
             $scope.filter.teacherIds.push($scope.addedTeachers[i].id);
 
+        for (var i = 0; i < $scope.addedBuildings.length; i++)
+            $scope.filter.buildingIds.push($scope.addedBuildings[i].id);
+
         dataService.addFilter($scope.filter);
         $location.url("/courses/filtered#main");
     }
 
     $scope.clear_filtering = function() {
-
+        $scope.teachersToAdd = [], $scope.addedTeachers = [];
+        $scope.categories = [];
     }
 
     $scope.show_data_for_search();
 }]);
 
-//course info controller
-diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataService', '$routeParams',
-    function ($scope, $http, $location, dataService, $routeParams) {
+//course data controller
+diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataService', '$routeParams', function ($scope, $http, $location, dataService, $routeParams) {
 
     $scope.course = {};
 
-    $scope.show_course_data = function (courseId) {
+    $scope.get_course_data = function (courseId) {
         changeMenu(document.getElementById('1'));
         //initialize the map
         initialize();
@@ -450,8 +482,6 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
  */
     }
 
-    $scope.show_course_data($routeParams.courseId);
-
     $scope.go_to_main = function() {
         $location.url("/courses#main");
     }
@@ -471,4 +501,34 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
                 console.log(error);
             });
     }
+
+    $scope.change_course = function() {
+        $location.url("/course/" + $scope.course.id + "/change");
+    }
+
+    $scope.save_course = function() {
+        $http({
+            method: 'POST',
+            //url: '/api/user',
+            params: { course: $scope.course },
+            headers: { 'Content-Type': 'application/JSON' }
+        }).
+            success(function (data) {
+                console.log(data);
+                $location.url("/course/:" + data + "/show");
+            })
+            .error(function (error) {
+                console.log(error);
+            });
+    }
+
+    $scope.go_back = function() {
+        if ($routeParams.action != "add")
+            $location.url("/course/:" + $scope.course.id + "/show");
+        else
+            $location.url("/search");
+    }
+
+    if ($routeParams.action != "add")
+        $scope.get_course_data($routeParams.courseId);
 }]);

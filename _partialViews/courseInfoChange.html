@@ -1,15 +1,15 @@
 <span data-ng-controller="CourseInfoCtrl">
-<div class="row">
+<div class="row" style="height:100%">
     <div class="col-md-6">
         <div class="row">
-            <h6>{{course.name}}</h6>
+            <h6 class="header">{{course.name}}</h6>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <h6>Category:</h6>
             </div>
             <div class="col-md-9">
-                {{course.subcategory}} ({{course.category}})
+                {{course.category.subcategories[0].name}} ({{course.category.name}})
             </div>
         </div>
         <div class="row">

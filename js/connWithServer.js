@@ -14,30 +14,26 @@ diplomaApp.config(['$routeProvider',
                     return '_partialViews/allCategories.html'
                 else
                     return '_partialViews/filterCourses.html'
-            },
-            controller: 'CoursesCtrl'
+            }
         }).
         when('/course/:courseId/:action', {
             templateUrl: function(params) {
-                if (params.courses == "show")
+                if (params.action == "show")
                     return '_partialViews/courseInfo.html'
                 else
                     return '_partialViews/courseInfoChange.html'
-            },
-            controller: 'CourseInfoCtrl'
+            }
         }).
         when('/search', {
-            templateUrl: '_partialViews/advancedSearch.html',
-            controller: 'SearchCtrl'
+            templateUrl: '_partialViews/advancedSearch.html'
         }).
         when('/user/:userId/:action', {
             templateUrl: function (params) {
                 if (params.action == "show")
-                    return '_partialViews/UserInfo.html'
+                    return '_partialViews/userInfo.html'
                 else
-                    return '_partialViews/UserInfoChange.html'
-            },
-            controller: 'UserCtrl'
+                    return '_partialViews/userInfoChange.html'
+            }
         }).
         otherwise({
             redirectTo: '/courses/all'
@@ -95,11 +91,11 @@ diplomaApp.directive('pwCheck', [function () {
 
 //menu controller
 diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService',
-    function ($scope, $http, $location) {
+    function ($scope, $http, $location, dataService) {
 
     $scope.show_user_data = function(userId) {
         if (userId != undefined)
-            $location.url("/user/:" + userId + "/show");
+            $location.url("/user/" + userId + "/show");
     }
 
     $scope.show_all_categories = function() {
@@ -113,6 +109,27 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
     $scope.add_course = function() {
         $location.url("/course/new/add");
     }
+
+    $scope.is_authenticated  = function () {
+        $http({
+            method: 'POST',
+            url: '/api/users/is_authenticated/',
+            headers: {'Content-Type': 'application/JSON'}
+        }).success(function (data) {
+                $scope.User = {};
+                $scope.User.id = data.id;
+                //push id to service
+                dataService.addUserId($scope.User.id);
+                //change trigger for front-end js
+                isAuthorised = true;
+            })
+            .error(function (error) {
+                if (error.status != 'error')
+                    console.log(error);
+            });
+    }
+
+    $scope.is_authenticated();
 }]);
 
 //user data controller
@@ -130,21 +147,29 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             var remember = document.getElementById("remember-me").checked;
             //if (user.email != undefined && user.pass != undefined)
                 $http({
-                    method: 'GET',
-                    //url: '/api/user',
-                    params: { email: user.email, password: user.pass, remember: remember },
+                    method: 'POST',
+                    url: '/api/users/login/',
+                    data: { email: user.email, password: user.pass, remember: remember },
                     headers: { 'Content-Type': 'application/JSON' }
                 }).
                     success(function (data) {
                         console.log(data);
-                        $scope.User.id = data;
+                        $scope.User.id = data.id;
                         //push id to service
                         dataService.addUserId($scope.User.id);
                         //change trigger for front-end js
                         isAuthorised = true;
+
+                        $('.cd-user-modal').removeClass('is-visible');
+                        window.location.reload();
                     })
                     .error(function (error) {
-                        console.log(error);
+                        //status!
+                        if (error.status == 'error') {
+
+                        }
+                        else
+                            console.log(error);
                     });
         }
 
@@ -153,14 +178,16 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             //if (user.pass != undefined && user.email != undefined)
                 $http({
                     method: 'POST',
-                    //url: '/api/users/register',
-                    params: { first_name: user.first_name, second_name: user.second_name, last_name: user.last_name,
-                        email: user.email, password: user.pass  },
+                    url: '/api/users/register/',
+                    data: { first_name: user.first_name, middle_name: user.middle_name, last_name: user.last_name,
+                        email: user.email, password: user.pass, password_confirmation: user.pass_confirm  },
                     headers: { 'Content-Type': 'application/JSON' }
                 }).
                     success(function (data) {
-                        console.log(data);
                         $location.url("/courses#main");
+
+                        $('.cd-user-modal').removeClass('is-visible');
+                        window.location.reload();
                     })
                     .error(function (error) {
                         //Showing error message
@@ -169,11 +196,12 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         }
 
         $scope.get_user_data = function (userId) {
+            if ($routeParams.action == "change" && userId != $scope.User.id)
+                $location.url("/user/" + userId + "/show");
             changeMenu(document.getElementById('0'));
             $http({
                 method: 'GET',
-                //url: '/api/user',
-                params: {id: userId},
+                url: '/api/users/' + userId + '/',
                 headers: {'Content-Type': 'application/JSON'}
             })
                 .success(function (data) {
@@ -184,6 +212,11 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                     console.log(error);
                 });
         }
+
+        $scope.change_user_data = function(userId) {
+            $location.url("/user/" + userId + "/change");
+        }
+
         /*
         $scope.change_user_data = function (userId) {
             changeMenu(document.getElementById('0'));
@@ -207,27 +240,30 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             //get new avatar
             var f = document.getElementById('file').files[0],
                 r = new FileReader();
+            $scope.user.avatar = f;
             //???
             //user.avatar = f;
             //or binary data?
             r.onloadend = function (e) {
                 //$scope.data = e.target.result;
-                user.Avatar = r.result;
+                //$scope.user.avatar = r.result;
                 //??????????save data here
             }
             r.readAsBinaryString(f);
 
+            console.log(user);
+
             //??????????save data here
             $http({
                 method: 'POST',
-                //url: '/api/user',
+                url: '/api/users/update/',
                 data: JSON.stringify(user),
                 headers: {'Content-Type': 'application/JSON'}
             })
                 .success(function (data) {
                     console.log(data);
 
-                    $location.url("/user/:" + $scope.user.id + "/show");
+                    $location.url("/user/" + $scope.user.id + "/show");
                 })
                 .error(function (error) {
                     console.log(error);
@@ -237,11 +273,12 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
         $scope.logout = function () {
             $http({
                 method: 'POST',
-                //url: '/api/user',
+                url: '/api/users/logout/',
                 headers: {'Content-Type': 'application/JSON'}
             }).success(function () {
                     dataService.addUserId(0);
-                    $location.url("/courses#main");
+                    $location.url("/courses/all");
+                    window.location.reload();
                 })
                 .error(function (error) {
                     console.log(error);
@@ -264,12 +301,19 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
         changeMenu(document.getElementById('1'));
         $http({
             method: 'GET',
-            //url: '/api/user',
+            url: '/api/categories/with_popular/',
             headers: {'Content-Type': 'application/JSON'}
         })
             .success(function (data) {
                 console.log(data);
-                $scope.courses = data;
+                $scope.categories = data.categories;
+                //12 courses
+                $scope.courses1 = [], $scope.courses2 = [], $scope.courses3 = [];
+                for (var i = 0; i < 3/*4*/; i++) {
+                    $scope.courses1[i] = data.courses[i];
+                    //$scope.courses2[i + 4] = data.courses[i + 4];
+                    //$scope.courses3[i + 8] = data.courses[i + 8];
+                }
             })
             .error(function (error) {
                 console.log(error);
@@ -294,22 +338,22 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
         var filter = dataService.getFilter();
         //initialize the map
         initialize();
-
         $http({
-            method: 'GET',
-            //url: '/api/user',
-            params: { categories: filter.categoryIds, teachers: filter.teacherIds, buildings: filter.buildingIds },
+            method: 'POST',
+            url: '/api/courses/filter/',
+            data: { categories: filter.categoryIds, teachers: filter.teacherIds, buildings: filter.buildingIds },
             headers: { 'Content-Type': 'application/JSON' }
         })
             .success(function (data) {
                 console.log(data);
-
+                $scope.courses = data;
+                
                 var coords = [];
-                for (var i = 0; i < coords.length; i++) {
+                for (var i = 0; i < $scope.coords.length; i++) {
                     var content = "";
-                    for (var j = 0; j < courses.length; j++) {
-                        if (courses[j].coordId == coords[i].id)
-                            content += "<div class='row' data-ng-click='show_course_data(" + courses[j].id + ")'> " + courses[j].name + "</div>";
+                    for (var j = 0; j < $scope.courses.length; j++) {
+                        if ($scope.courses[j].coordId == $scope.coords[i].id)
+                            content += "<div class='row' data-ng-click='show_course_data(" + $scope.courses[j].id + ")'> " + $scope.courses[j].name + "</div>";
                     }
                     markers[i].marker = addMarker(coords.lat, coords.lng, content);
                 }
@@ -466,21 +510,20 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
             changeMenu(document.getElementById('1'));
         //initialize the map
         initialize();
-        addMarker(50.448029, 30.451108, "Course name");
-/*        $http({
+        $http({
             method: 'GET',
-            //url: '/api/user',
-            params: { id: courseId },
+            url: '/api/courses/' + courseId + "/",
             headers: {'Content-Type': 'application/JSON'}
         })
             .success(function (data) {
                 console.log(data);
                 $scope.course = data;
+                addMarker($scope.course.location.lat, $scope.course.location.lng, $scope.course.name);
             })
             .error(function (error) {
                 console.log(error);
             });
- */
+
     }
 
     $scope.go_to_main = function() {
@@ -489,9 +532,9 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
 
     $scope.enter_course = function() {
         $http({
-            method: 'GET',
-            //url: '/api/user',
-            params: { userId: dataService.getUserId(), courseId: $scope.course.id },
+            method: 'POST',
+            url: '/api/courses/' + $scope.course.id + '/subscribe/',
+            //data: { courseId: $scope.course.id },
             headers: { 'Content-Type': 'application/JSON' }
         }).
             success(function (data) {
@@ -529,6 +572,9 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         else
             $location.url("/search");
     }
+
+    if (dataService.getUserId() == undefined || dataService.getUserId() == 0)
+        $scope.go_to_main();
 
     if ($routeParams.action != "add")
         $scope.get_course_data($routeParams.courseId);

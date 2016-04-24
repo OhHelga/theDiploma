@@ -1,53 +1,51 @@
-<div data-ng-controller="CoursesCtrl">
-    <div class = "row">
-        <div class = "col-md-6">
-            <h6 class="row header">For applicants</h6>
-            <div class="col-md-6" ng-repeat="category in categories | filter:{group:'applicants'}" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
-                <span data-ng-click="show_filtered_courses([category.id])" style="cursor: pointer">{{category.Name}}</span>
+<div data-ng-controller="CoursesCtrl"  style="height:100%">
+    <div class = "row" style="height:50%">
+        <div class = "col-md-12">
+            <h6 class="row header">Categories</h6>
+
+            <div class="col-md-3 category" ng-repeat="category in categories" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
+                <span data-ng-click="show_filtered_courses([category.id])">
+                    {{category.name}}
+                </span>
                 <span class="subcategories">
                     <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, [sub.id])'>{{sub.name}}</div>
                 </span>
             </div>
-        </div>
-        <div class = "col-md-6">
-            <h6 class="row header">For students</h6>
-            <div class="col-md-6" ng-repeat="category in categories | filter:{group:'students'}" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
-                <span data-ng-click="show_filtered_courses([category.id])" style="cursor: pointer">{{category.name}}</span>
-                <span class="subcategories">
-                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, [sub.id])'>{{sub.name}}</div>
-                </span>
-            </div>
+
         </div>
     </div>
-    <div class="row" style="padding:1em">
+    <div class="row" style="padding:1em; height:50%">
+        <h6 class="row header">Most popular</h6>
         <!--most popular carousel-->
         <div id="most-popular-carousel" class="carousel slide">
             <!-- Carousel items -->
             <div class="carousel-inner">
                 <div class="item active">
                     <div class="row">
-                        <div class="col-sm-3" ng-repeat='course in courses1'>
-                            {{course.name}}
+                        <div class="col-sm-4 course" ng-repeat='course1 in courses1'>
+                            <h4>{{course1.name}}</h4> <br/>
+                            {{course1.category.name}}<br/>
+                            {{course1.location.name}}
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="item">
+                    <div class="row">
+                        <div class="col-sm-3" ng-repeat='course2 in courses2'>
+                            {{course2.name}}
                         </div>
                     </div>
                 </div>
                 <div class="item">
                     <div class="row">
-                        <div class="col-sm-3" ng-repeat='course in courses2'>
-                            {{course.name}}
+                        <div class="col-sm-3" ng-repeat='course3 in courses3'>
+                            {{course3.name}}
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="row">
-                        <div class="col-sm-3" ng-repeat='course in courses3'>
-                            {{course.name}}
-                        </div>
-                    </div>
-                </div>
+                </div>-->
             </div>
-            <a class="left carousel-control" href="/#most-popular-carousel" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="/#most-popular-carousel" data-slide="next">›</a>
+            <a class="left carousel-control" href="javascript:void(0);" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="javascript:void(0);" data-slide="next">›</a>
         </div>
     </div>
 </div>

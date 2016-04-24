@@ -1,24 +1,22 @@
 <span data-ng-controller="UserCtrl">
 <div class="row" style="height: 50%">
-    <div class="col-md-4" style="height: 100%">
-        <img src="IMG_9273(2).jpg" class="avatar">
+    <div class="col-md-4 col-sm-4" style="height: 100%">
+        <img src="{{user.avatar}}" class="avatar">
     </div>
 
-    <div class="col-md-8">
-        <div class="row">
-        </div>
+    <div class="col-md-8 col-sm-8">
         <div class="row">
             <div class="col-md-3">
-                <h6>Name:</h6>
+                <h4>Name:</h4>
             </div>
             <div class="col-md-9">
-                {{user.first_name}} {{user.second_name}} {{user.last_name}}
+                {{user.first_name}} {{user.middle_name}} {{user.last_name}}
             </div>
         </div>
         <span ng-class="(user.id == User.id) ? '' : 'hidden'">
             <div class="row">
                 <div class="col-md-3">
-                    <h6>E-mail (hidden):</h6>
+                    <h4>E-mail (hidden):</h4>
                 </div>
                 <div class="col-md-9">
                     {{user.email}}
@@ -27,46 +25,50 @@
         </span>
         <div class="row">
             <div class="col-md-3">
-                <h6>Category:</h6>
+                <h4>Category:</h4>
             </div>
             <div class="col-md-9">
-                {{user.category}}
+                {{user.category_name}}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h6>About me:</h6>
+                <h4>About me:</h4>
             </div>
             <div class="col-md-9">
-                {{user.About}}
+                {{user.personal}}
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6">
+<div class="row" style="height:43%">
+    <div class="col-md-6 col-sm-6">
         <h6>Ended courses: </h6>
-        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'ended'}">
+        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'finished'}">
             {{course.name}}
         </div>
         <button data-toggle="modal" data-target="#modal-end-courses">Show all</button>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-6">
         <h6>Courses for now: </h6>
-        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'continuing'}">
+        <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'active'}">
             {{course.name}}
         </div>
         <button data-toggle="modal" data-target="#modal-cont-courses"> Show all</button>
     </div>
 </div>
-
-    <button ng-click="change_user_data(user.id)" ng-class="(user.id == User.id) ? '' : 'hidden'">
-        Change profile data
-    </button>
-    <br/>
-    <button ng-click="logout()" ng-class="(user.id == User.id) ? '' : 'hidden'">
-        Logout
-    </button>
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <button ng-click="change_user_data(user.id)" ng-class="(user.id == User.id) ? '' : 'hidden'">
+            Change profile data
+        </button>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <button ng-click="logout()" ng-class="(user.id == User.id) ? '' : 'hidden'" style="float:right;">
+            Logout
+        </button>
+    </div>
+</div>
 </span>
 
 <!-- Modal windows for all courses -->

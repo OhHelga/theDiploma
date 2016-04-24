@@ -1,45 +1,41 @@
 <span data-ng-controller="UserCtrl">
-<div class="row" style="height: 100%">
+<div class="row" style="height: 95%">
     <div class="col-md-4"  style="height: 100%">
-        <img src="user.Avatar" class="avatar"> <br/>
+        <img src="user.avatar" class="avatar"> <br/>
         Change to: <input type="file" id="file" name="file"/>
     </div>
 
     <div class="col-md-8">
+        <form class="cd-form">
         <div class="row">
             <div class="col-md-3">
-                <h6>Name:</h6>
+                <h4>Name:</h4>
             </div>
             <div class="col-md-9">
-                <input type="text" ng-model="user.first_name"><br/>
-                <input type="text" ng-model="user.second_name"><br/>
-                <input type="text" ng-model="user.last_name">
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.first_name"  placeholder="First name">
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.middle_name"  placeholder="Middle name"><br/>
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.last_name"  placeholder="Last name">
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h6>E-mail (hidden):</h6>
+                <h4>Category:</h4>
             </div>
             <div class="col-md-9">
-                <input type="text" ng-model="user.email">
-            </div>
-         </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h6>Category:</h6>
-            </div>
-            <div class="col-md-9">
-                {{user.Status}}
+                {{user.category}}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h6>About me:</h6>
+                <h4>About me:</h4>
             </div>
             <div class="col-md-9">
-                <input type="text" ng-model="user.About">
+                <p class="fieldset">
+                    <textarea class="full-width has-padding-user has-border"  rows="4" cols="50" ng-model="user.personal"  placeholder="Personal information"></textarea>
+                </p>
             </div>
         </div>
+        </form>
     </div>
 </div>
 

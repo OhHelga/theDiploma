@@ -42,7 +42,7 @@
 </head>
 <body data-ng-app="diplomaApp">
 <span data-ng-controller="MainCtrl">
-<div class="row"  id="menu" ng-class="{{User == null || User.id == 0}} ? '' : 'hidden'">
+<div class="row"  id="menu" ng-if="User == null || User.id == 0">
     <div class="col-md-12" style="height:100%">
         <ul>
             <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
@@ -53,7 +53,7 @@
     <div class="col-md-12 interBlock"></div>
 </div>
 <div class="row" id="mainBody">
-    <div class="col-md-12 annotation"  ng-class="{{User == null || User.id == 0}} ? '' : 'hidden'">
+    <div class="col-md-12 annotation"  ng-if="User == null || User.id == 0">
         <div class="col-md-6 mainText">
             You <span class="importantText">smarter</span><br/> than you think. <br/><br/>
             Find <span class="importantText"> your way </span><br/> with <br/>
@@ -68,7 +68,7 @@
     <!--<div class="col-md-12 buttonStart"><span class="buttonStartBorder">Start now! </br> &#8659;</span></div>-->
     <div class = "col-md-12" id="main">
         <div class="col-md-1 col-sm-2 navigation">
-            <div class="item verticalText"  id="0" data-ng-click="show_user_data(User.Id)" title="User">
+            <div class="item verticalText"  id="0" data-ng-click="show_user_data(User.id)" title="User">
                 <img src="content/icons/hat.png">
                 <span ng-if="User == null || User.id == 0">LogIn</span>
             </div>
@@ -144,8 +144,8 @@
                 </p>
                 <p class="fieldset">
                     <label class="image-replace cd-username" for="signup-second_name">Second name</label>
-                    <input class="full-width has-padding has-border" id="signup-second_name" type="text" placeholder="Second name"
-                           data-ng-model="user.second_name" required>
+                    <input class="full-width has-padding has-border" id="signup-second_name" type="text" placeholder="Middle name"
+                           data-ng-model="user.middle_name" required>
                     <span class="cd-error-message">Name error!</span>
                 </p>
                 <p class="fieldset">

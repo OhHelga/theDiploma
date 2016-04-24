@@ -10,6 +10,12 @@
          url("font/Cera_Stencil_PRO_Trial.otf"); /* если шрифт не установлен, тогда загружаем его по указанному пути */
 }
 
+@font-face {
+	font-family: CeraStencil;
+	src: local("Times New Roman");
+	unicode-range: U+0030-0039;
+}
+
 body, html { height: 100%; }
 
 body {
@@ -17,6 +23,8 @@ body {
 	padding: 0;
 	//background-color: #d99d55;
 	//overflow-x: hidden; /*!!!!!!*/
+	color: #361a0e;
+	font: 1.2vw/1.2vw CeraStencil;
 }
 
 #menu {
@@ -99,6 +107,11 @@ a:hover {
 	font: 4vw/4vw CeraStencilBold;
 }
 
+h4 {
+	font: 1.5vw/1.8vw CeraStencilBold;
+}
+
+
 h6 {
 	font: 1.8vw/2vw CeraStencilBold;
 }
@@ -119,13 +132,12 @@ h6 {
 	-webkit-box-shadow:inset 0px 34px 0px -12px #9c4717;
 	box-shadow:inset 0px 34px 0px -12px #9c4717;
 
-	font: 1.3vmax CeraStencil;
-	padding: 1em;
+	font: 1.2vmax CeraStencil;
 	color: #d99d55;
 	//border-radius: 20%;
 	text-align: center;
 	//bottom: 1em;
-	padding: 0.5em;
+	padding: 0.4em;
 	
 	float: none;
 	margin: auto;
@@ -169,7 +181,7 @@ h6 {
 	color: #e0c38a;
 	text-align: center;
 	font: 1vw/0.9vw CeraStencil;
-	margin-right: -1em;
+	//margin-right: -1em;
 }
 
 #one {
@@ -268,6 +280,13 @@ img {
 
 .header {
 	text-align: center;
+	margin: 1em;
+}
+
+.category {
+	cursor: pointer;
+	//margin: 0.3em;
+	margin-top: 0.7em;
 }
 
 .subcategories {
@@ -277,8 +296,9 @@ img {
 	border: 0.08em solid #361a0e;
 	background-color: #9c4717;
 	color: #d99d55;
-	width: 100%;
-	display:none
+	width: 90%;
+	display:none;
+	z-index: 100;
 }
 
 .subcategory {
@@ -292,4 +312,26 @@ img {
 	background-color: #d99d55;
 	color: #9c4717;
 	cursor: pointer;
+}
+
+.modal-header {
+	border-bottom-color: #361a0e;
+}
+
+.modal-content {
+	background-color: #e0c38a;
+}
+
+.close, .close:hover, .close:focus {
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+	background-color: #e0c38a;
+}
+
+.course {
+	text-align: center;
+	background-color: #e0c38a;
+	border: 0.08em solid #9c4717;
+	margin: 1em;
 }

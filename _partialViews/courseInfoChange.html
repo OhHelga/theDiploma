@@ -1,5 +1,6 @@
+
 <span data-ng-controller="CourseInfoCtrl">
-<div class="row" style="height:95%">
+<div class="row" style="height:95%; overflow: auto">
     <div class="col-md-12 col-sm-12">
         <form class="cd-form">
             <div class="row">
@@ -30,14 +31,6 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Author:</h4>
-                </div>
-                <div class="col-md-9">
-                    {{course.author.first_name}} {{course.author.middle_name}} {{course.author.last_name}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
                     <h4>Teachers:</h4>
                 </div>
                 <div class="col-md-9">
@@ -53,12 +46,11 @@
                     <h4>Time:</h4>
                 </div>
                 <div class="col-md-9">
-                    <input  class="full-width has-padding-user has-border datepicker" type="text"
+                    <input  class="has-padding-user has-border datepicker" type="text"
                             placeholder="Begin date" ng-model="course.begin_date">
                     to
-                    <input  class="full-width has-padding-user has-border datepicker" type="text"
+                    <input  class="has-padding-user has-border datepicker" type="text"
                             placeholder="Begin date" ng-model="course.end_date">
-                    {{course.begin_date}} to {{course.end_date}}
                 </div>
             </div>
             <div class="row">
@@ -66,7 +58,7 @@
                     <h4>Credits:</h4>
                 </div>
                 <div class="col-md-9">
-                    <input type="number" min="12" class="full-width has-padding-user has-border" ng-model="course.credits"  placeholder="Credits" required>
+                    <input type="text" class="full-width has-padding-user has-border numeric" ng-model="course.credits"  placeholder="Credits" required>
                 </div>
             </div>
             <div class="row">
@@ -74,11 +66,11 @@
                     <h4>Price:</h4>
                 </div>
                 <div class="col-md-9">
-                    <input type="number" class="full-width has-padding-user has-border" ng-model="course.price"  placeholder="Price" required>
+                    <input class="numeric full-width has-padding-user has-border" type="text" ng-model="course.price"  placeholder="Price" required>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4>Building:</h4>
                 </div>
                 <div class="col-md-2">
@@ -91,7 +83,7 @@
                             ng-options="option.address for option in course_locations.availableOptions track by option.id"
                             ng-model="course_locations.selectedOption"></select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <h4>Room:</h4>
                 </div>
                 <div class="col-md-2">
@@ -104,7 +96,7 @@
                 </div>
                 <div class="col-md-9">
                     <p class="fieldset">
-                        <textarea class="full-width has-padding-user has-border"  rows="4" cols="50" ng-model="course.info"  placeholder="Additional information"></textarea>
+                        <textarea class="full-width has-padding-user has-border"  rows="3" cols="50" ng-model="course.info"  placeholder="Additional information"></textarea>
                     </p>
                 </div>
             </div>

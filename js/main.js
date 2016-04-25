@@ -7,6 +7,14 @@ var pageID = "#inBody";
 
 $(document).ready(function () {
 
+	$('.datepicker').datepicker({
+		format: 'yyyy-mm-dd',
+		startDate: '-3d'
+	});
+
+	$(".numeric").numeric({ decimal : ".",  negative : false, scale: 3 });
+
+
 	$('.item').click(function(event) {
 		changeMenu(this);
 	});
@@ -151,10 +159,7 @@ var formModal = $('.cd-user-modal'),
 	});
 
 
-	$('.datepicker').datepicker({
-		format: 'yyyy-mm-dd',
-		startDate: '-3d'
-	});
+
 });
 
 function animatePageChange(elem, iconIndex){

@@ -334,13 +334,9 @@ diplomaApp.controller('CoursesCtrl', ['$scope', '$http', '$location', 'dataServi
     }
 
     //ACHTUNG! CLEAN THIS
-    $scope.show_filtered_courses = function(categoryIdsArr, subcategoryIdsArr, teacherIdsArr) {
-        var categoryIds = typeof categoryIdsArr !== 'undefined' ? categoryIdsArr : [];
-        var subcategoryIds = typeof subcategoryIdsArr !== 'undefined' ? subcategoryIdsArr : [];
-        var teacherIds = typeof teacherIdsArr !== 'undefined' ? teacherIdsArr : [];
+    $scope.show_filtered_courses = function(categoryId) {
         var filter = {
-            categoryIds: categoryIds.concat(subcategoryIds),
-            teacherIds: teacherIds
+            categoryIds: categoryId
         };
         dataService.addFilter(filter);
         $location.url("/courses/filtered#main");
@@ -531,11 +527,14 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
     $scope.teachersToAdd = [], $scope.addedTeachers = [];
 
     $scope.get_course_data = function (courseId) {
-        if ($routeParams.action == "show")
-            changeMenu(document.getElementById('1'));
+        if (dataService.getUserId() == undefined || dataService.getUserId() == 0)
+            $scope.go_to_main();
 
-        //initialize the map
-        initialize();
+        if ($routeParams.action == "show") {
+            changeMenu(document.getElementById('1'));
+            //initialize the map
+            initialize();
+        }
         $http({
             method: 'GET',
             url: '/api/courses/' + courseId + "/",
@@ -553,6 +552,9 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
     }
 
     $scope.get_data_for_course = function() {
+        if (dataService.getUserId() == undefined || dataService.getUserId() == 0)
+            $scope.go_to_main();
+
         //initialize the map
         initialize();
         $http({
@@ -656,9 +658,6 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         else
             $location.url("/search");
     }
-
-    if (dataService.getUserId() == undefined || dataService.getUserId() == 0)
-        $scope.go_to_main();
 
     if ($routeParams.action != "add")
         $scope.get_course_data($routeParams.courseId);

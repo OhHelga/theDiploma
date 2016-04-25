@@ -8,7 +8,7 @@
                     {{category.name}}
                 </span>
                 <span class="subcategories">
-                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, [sub.id])'>
+                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses([sub.id])'>
                         {{sub.name}}
                     </div>
                 </span>

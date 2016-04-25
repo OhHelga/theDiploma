@@ -12,8 +12,7 @@ function initialize() {
         zoom: 14,//масштаб
         center: haightAshbury,//позиционируем карту на заданые координаты
         mapTypeId: google.maps.MapTypeId.ROADMAP,//задаем тип карты
-        v: 3.20,
-        sensor: false
+        v: 3.20
     };    
     map = new google.maps.Map(document.getElementById("map"), mapOptions);//инициализация карты
     console.log(map);

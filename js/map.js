@@ -11,9 +11,12 @@ function initialize() {
     var mapOptions = {
         zoom: 14,//масштаб
         center: haightAshbury,//позиционируем карту на заданые координаты
-        mapTypeId: google.maps.MapTypeId.ROADMAP//задаем тип карты
+        mapTypeId: google.maps.MapTypeId.ROADMAP,//задаем тип карты
+        v: 3.20,
+        sensor: false
     };    
     map = new google.maps.Map(document.getElementById("map"), mapOptions);//инициализация карты
+    console.log(map);
 }
 //функция добавления маркера
 function addMarker(lat, lng, contentString) {
@@ -28,8 +31,9 @@ function addMarker(lat, lng, contentString) {
       new google.maps.Point(0, 0),
       new google.maps.Point(0, 32)); //изображение маркера
  */
+    var position = new google.maps.LatLng(lat, lng);
     marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, lng),//location,
+        position: position,//location,
         map: map,
         //shadow: shadow,
         //icon: image,
@@ -38,7 +42,8 @@ function addMarker(lat, lng, contentString) {
     });//добавление маркера
 
     var infowindow = new google.maps.InfoWindow({
-        content: contentString
+        content: contentString,
+        maxWidth: 400
     });
 
     marker.addListener('click', function() {
@@ -48,8 +53,8 @@ function addMarker(lat, lng, contentString) {
     return marker;
 }
 
-function toggleBounce(marker) {
-    if (marker.getAnimation() !== null) {
+function toggleBounce(marker, on) {
+    if (!on) {
         marker.setAnimation(null);
     } else {
         marker.setAnimation(google.maps.Animation.BOUNCE);

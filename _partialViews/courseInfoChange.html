@@ -1,50 +1,114 @@
 <span data-ng-controller="CourseInfoCtrl">
-<div class="row" style="height:100%">
-    <div class="col-md-6">
-        <div class="row">
-            <h6 class="header">{{course.name}}</h6>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h6>Category:</h6>
+<div class="row" style="height:95%">
+    <div class="col-md-12 col-sm-12">
+        <form class="cd-form">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Name:</h4>
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="course.name"  placeholder="Name" required>
+                </div>
             </div>
-            <div class="col-md-9">
-                {{course.category.subcategories[0].name}} ({{course.category.name}})
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h6>Teachers:</h6>
-            </div>
-            <div class="col-md-9">
-                <span ng-repeat="teacher in course.teachers">
-                    {{teacher.FullName.join(', ')}}
-                </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h6>Time:</h6>
-            </div>
-            <div class="col-md-9">
-                {{course.TimeStart}} - {{course.TimeEnd}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h6>Length:</h6>
-            </div>
-            <div class="col-md-9">
-                {{course.credits}} hrs
-            </div>
-        </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Category:</h4>
+                </div>
+                <div class="col-md-4">
+                    <select name="mySelect" class="mySelect"
+                            ng-options="option.name for option in course_categories.availableOptions track by option.id"
+                            ng-model="course_categories.selectedCategory"></select>
+                </div>
+                <div class="col-md-5">
+                    <select name="mySelect" class="mySelect"
+                            ng-options="option.name for option in course_categories.availableOptions.subcategories track by option.id"
+                            ng-model="course_categories.selectedSubcategory">
+                        <option value=""></option>
+                    </select>
 
-
-
-    </div>
-
-    <div class="col-md-6" style="height: 50%">
-        <div id = "map"> </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Author:</h4>
+                </div>
+                <div class="col-md-9">
+                    {{course.author.first_name}} {{course.author.middle_name}} {{course.author.last_name}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Teachers:</h4>
+                </div>
+                <div class="col-md-9">
+                    <span ng-repeat="teacher in addedTeachers">
+                        {{teacher.FullName.join(', ')}} <span data-ng-click="remove_teacher(teacher)">&#10007; </span>
+                    </span>
+                    <br/>
+                    <button data-toggle="modal" data-target="#modal-cont-teachers"> Add teachers</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Time:</h4>
+                </div>
+                <div class="col-md-9">
+                    <input  class="full-width has-padding-user has-border datepicker" type="text"
+                            placeholder="Begin date" ng-model="course.begin_date">
+                    to
+                    <input  class="full-width has-padding-user has-border datepicker" type="text"
+                            placeholder="Begin date" ng-model="course.end_date">
+                    {{course.begin_date}} to {{course.end_date}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Credits:</h4>
+                </div>
+                <div class="col-md-9">
+                    <input type="number" min="12" class="full-width has-padding-user has-border" ng-model="course.credits"  placeholder="Credits" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Price:</h4>
+                </div>
+                <div class="col-md-9">
+                    <input type="number" class="full-width has-padding-user has-border" ng-model="course.price"  placeholder="Price" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h4>Building:</h4>
+                </div>
+                <div class="col-md-2">
+                    <select name="mySelect" class="mySelect"
+                            ng-options="option.name for option in course_locations.availableOptions track by option.id"
+                            ng-model="course_locations.selectedOption"></select>
+                </div>
+                <div class="col-md-4">
+                    <select name="mySelect" class="mySelect"
+                            ng-options="option.address for option in course_locations.availableOptions track by option.id"
+                            ng-model="course_locations.selectedOption"></select>
+                </div>
+                <div class="col-md-2">
+                    <h4>Room:</h4>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="course.classroom"  placeholder="Auditorium" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>About courses:</h4>
+                </div>
+                <div class="col-md-9">
+                    <p class="fieldset">
+                        <textarea class="full-width has-padding-user has-border"  rows="4" cols="50" ng-model="course.info"  placeholder="Additional information"></textarea>
+                    </p>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -55,4 +119,30 @@
 <button ng-click="go_back()">
     Cancel
 </button>
+
+<div class="modal fade" id="modal-cont-teachers" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Teachers</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4" ng-repeat="teacher in teachersToAdd">
+                        <label>
+                            <input type="checkbox" ng-model="teacher.isAdded">
+                            {{teacher.FullName}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="add_teachers()"> Add selected </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </span>

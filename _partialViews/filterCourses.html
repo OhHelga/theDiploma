@@ -1,22 +1,24 @@
-<div class="row" data-ng-controller="CoursesCtrl">
-    <div class="col-md-6" style="height: 70%">
+<div class="row" data-ng-controller="CoursesCtrl" style="height:100%">
+    <div class="col-md-6 col-sm-6" style="height: 70%">
         <div id = "map"> </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="row">
-            Courses <br/>
-            <input ng-model="findCourses">
+    <div class="col-md-6 col-sm-6">
+        <div class="row coursesrow">
+            <h6>Courses </h6><br/>
+            <h4>Quick search:</h4><input ng-model="findCourses.name" id="mySelect">
         </div>
-        <div style="height:100%; overflow: scroll">
-            <div class="row" style="cursor: pointer;" ng-repeat="course in courses | filter:findCourses"
-                 ng-mouseover="bounce_marker(course.coordId)" ng-mouseout="bounce_marker(course.coordId)">
+        <div  class="row coursesrow courses_f">
+            <div class="row course_f" ng-repeat="course in courses | filter:findCourses"
+                 ng-mouseover="bounce_marker(course.location.id, true)" ng-mouseout="bounce_marker(course.location.id, false)"
+                    data-ng-click="show_course_data(course.id)">
                 {{course.name}}
             </div>
         </div>
+        <div class="row coursesrow">
+            <button ng-click="go_to_filtering()">
+                Advanced search
+            </button>
+        </div>
     </div>
-
-    <button ng-click="go_to_filtering()">
-        Advanced search
-    </button>
 </div>

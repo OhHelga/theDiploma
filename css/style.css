@@ -167,7 +167,7 @@ xsigin/signup popup
   margin: 0;
   padding: 0;
 }
-.cd-form input.full-width, .cd-form textarea.full-width {
+.cd-form input.full-width, .cd-form textarea.full-width, .mySelect {
   width: 100%;
 }
 
@@ -175,12 +175,12 @@ xsigin/signup popup
   padding: 12px 20px 12px 50px;
 }
 
-.cd-form input.has-padding-user, .cd-form textarea.has-padding-user {
+.cd-form input.has-padding-user, .cd-form textarea.has-padding-user, .mySelect {
   padding: 0.5em;
   margin-bottom: 1em;
 }
 
-.cd-form input.has-border, .cd-form textarea.has-border {
+.cd-form input.has-border, .cd-form textarea.has-border, .mySelect {
   border: 1px solid #d2d8d8;
   //border: 0.08em solid #361a0e;
   -webkit-appearance: none;
@@ -189,7 +189,7 @@ xsigin/signup popup
   -o-appearance: none;
   appearance: none;
 }
-.cd-form input.has-border:focus, .cd-form textarea.has-border:focus {
+.cd-form input.has-border:focus, .cd-form textarea.has-border:focus, .mySelect:focus {
   border-color: #361a0e;
   box-shadow: 0 0 5px rgba(52, 54, 66, 0.1);
   outline: none;

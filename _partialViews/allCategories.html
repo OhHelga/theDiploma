@@ -8,7 +8,9 @@
                     {{category.name}}
                 </span>
                 <span class="subcategories">
-                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, [sub.id])'>{{sub.name}}</div>
+                    <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses(undefined, [sub.id])'>
+                        {{sub.name}}
+                    </div>
                 </span>
             </div>
 
@@ -20,12 +22,15 @@
         <div id="most-popular-carousel" class="carousel slide">
             <!-- Carousel items -->
             <div class="carousel-inner">
-                <div class="item active">
-                    <div class="row">
+                <div class="item active popular_courses">
+                    <div class="row" style="margin:0">
                         <div class="col-sm-4 course" ng-repeat='course1 in courses1'>
                             <h4>{{course1.name}}</h4> <br/>
-                            {{course1.category.name}}<br/>
-                            {{course1.location.name}}
+                            Category: {{course1.category.name}}<br/>
+                            Where: {{course1.location.name}} <br/>
+                            When: {{course1.begin_date}} - {{course1.end_date}} <br/>
+                            Listeners: {{course1.users.length}}<br/>
+                            Views: {{course1.views_count}}
                         </div>
                     </div>
                 </div>
@@ -44,8 +49,8 @@
                     </div>
                 </div>-->
             </div>
-            <a class="left carousel-control" href="javascript:void(0);" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="javascript:void(0);" data-slide="next">›</a>
+            <a class="left carousel-control" href="javascript:void(0)" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="javascript:void(0)" data-slide="next">›</a>
         </div>
     </div>
 </div>

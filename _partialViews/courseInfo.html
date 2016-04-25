@@ -1,6 +1,6 @@
 <span data-ng-controller="CourseInfoCtrl">
 <div class="row" style="height:95%">
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-6">
         <div class="row">
             <h6 class="header">{{course.name}}</h6>
         </div>
@@ -10,6 +10,14 @@
             </div>
             <div class="col-md-9">
                 {{course.category.name}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Author:</h4>
+            </div>
+            <div class="col-md-9">
+                {{course.author.first_name}} {{course.author.middle_name}} {{course.author.last_name}}
             </div>
         </div>
         <div class="row">
@@ -27,7 +35,7 @@
                 <h4>Time:</h4>
             </div>
             <div class="col-md-9">
-                {{course.begin_date}} - {{course.end_date}}
+                {{course.begin_date}} - {{course.end_date}} <br/> ({{course.status}})
             </div>
         </div>
         <div class="row">
@@ -38,22 +46,54 @@
                 {{course.credits}} hrs
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Price:</h4>
+            </div>
+            <div class="col-md-9">
+                {{course.price}} UAH
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Where:</h4>
+            </div>
+            <div class="col-md-9">
+                Pavilion {{course.location.name}}, auditorium {{course.classroom}} <br/> ({{course.location.address}})
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Number of listeners:</h4>
+            </div>
+            <div class="col-md-9">
+                {{course.users.length}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>About courses:</h4>
+            </div>
+            <div class="col-md-9">
+                {{course.info}}
+            </div>
+        </div>
 
 
     </div>
 
-    <div class="col-md-6" style="height: 50%">
+    <div class="col-md-6 col-sm-6" style="height: 97%">
         <div id = "map"> </div>
-
+        <button style='margin-top:0.3em' ng-if="course.author.id == User.id" ng-click="change_course()">
+            Change
+        </button>
     </div>
 </div>
 
-<button ng-if="course.author == User.id" ng-click="change_course()">
-    Change
+<button ng-if="course.status != 'finished'" ng-click="enter_course()">
+    Enter course
 </button>
-
-<button ng-click="go_to_main()">
+<!--<button ng-click="go_to_main()">
     Go back to categories
-</button>
+</button>-->
 </span>

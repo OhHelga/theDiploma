@@ -149,6 +149,12 @@ var formModal = $('.cd-user-modal'),
 		if (!isAuthorised)
 			login_selected();
 	});
+
+
+	$('.datepicker').datepicker({
+		format: 'yyyy-mm-dd',
+		startDate: '-3d'
+	});
 });
 
 function animatePageChange(elem, iconIndex){

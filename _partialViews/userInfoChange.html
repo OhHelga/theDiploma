@@ -1,20 +1,20 @@
 <span data-ng-controller="UserCtrl">
 <div class="row" style="height: 95%">
-    <div class="col-md-4"  style="height: 100%">
+    <div class="col-md-4 col-sm-4"  style="height: 100%">
         <img src="user.avatar" class="avatar"> <br/>
         Change to: <input type="file" id="file" name="file"/>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-8 col-sm-8">
         <form class="cd-form">
         <div class="row">
             <div class="col-md-3">
                 <h4>Name:</h4>
             </div>
             <div class="col-md-9">
-                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.first_name"  placeholder="First name">
-                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.middle_name"  placeholder="Middle name"><br/>
-                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.last_name"  placeholder="Last name">
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.first_name"  placeholder="First name" required>
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.middle_name"  placeholder="Middle name" required><br/>
+                    <input type="text" class="full-width has-padding-user has-border" ng-model="user.last_name"  placeholder="Last name" required>
             </div>
         </div>
         <div class="row">
@@ -22,7 +22,9 @@
                 <h4>Category:</h4>
             </div>
             <div class="col-md-9">
-                {{user.category}}
+                <select name="mySelect" class="mySelect"
+                        ng-options="option.name for option in user_categories.availableOptions track by option.id"
+                        ng-model="user_categories.selectedOption"></select>
             </div>
         </div>
         <div class="row">
@@ -39,5 +41,5 @@
     </div>
 </div>
 
-<button data-ng-click="save_user_data(user)" >Save</button>
+<button data-ng-click="save_user_data(user)" class="col-md-1 col-sm-2">Save</button>
 </span>

@@ -51,7 +51,7 @@
     <div class="col-md-12" style="height:100%">
         <ul>
             <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
-            <li><a href="" data-ng-click="go_to_filtering()">Search</a></li>
+            <!--<li><a href="" data-ng-click="go_to_filtering()">Search</a></li>-->
             <li id="user"><a href="#" >LogIn</a></li>
         </ul>
     </div>
@@ -80,12 +80,15 @@
             <div class="item chosen"  id="1"  data-ng-click="show_all_categories()" title="Courses">
                 <img src="content/icons/directionDark.png">
             </div>
-            <div class="item"  id = "2"  data-ng-click="go_to_filtering()" title="Search">
+            <!--<div class="item"  id = "2"  data-ng-click="go_to_filtering()" title="Search">
                 <img src="content/icons/search.png">
-            </div>
-            <div class="item"  id = "3"  data-ng-click="add_course()" title="Add course" ng-show="User.category == 1">
+            </div>-->
+
+            <span id="createBtn"></span>
+
+            <!--<div class="item"  id = "3"  data-ng-click="add_course()" title="Add course" ng-show="User.category == 1">
                 <img src="content/icons/pen.png">
-            </div>
+            </div>-->
         </div>
 
         <div class="col-md-11 col-sm-10 body">
@@ -113,23 +116,25 @@
                 <p class="fieldset">
                     <label class="image-replace cd-email" for="signin-email">E-mail</label>
                     <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail"
-                           data-ng-model="user.email" name="email">
+                           data-ng-model="user.email" name="email" required>
                     <span class="cd-error-message">Email error!</span>
                 </p>
 
                 <p class="fieldset">
                     <label class="image-replace cd-password" for="signin-password">Password</label>
-                    <input class="full-width has-padding has-border" id="signin-password" type="text" placeholder="Password"
-                           data-ng-model="user.pass" name="password">
-                    	<a href="#" class="hide-password">Hide</a>
+                    <input class="full-width has-padding has-border" id="signin-password" type="password" placeholder="Password"
+                           data-ng-model="user.pass" name="password" required>
+                    	<a href="#" class="hide-password">Show</a>
                     <span class="cd-error-message">Password error!</span>
                 </p>
 
                 <p class="fieldset">
-                    <input type="checkbox" id="remember-me" checked>
-                    <label for="remember-me">Remember me</label>
+                    <span class="col-md-6 col-sm-6">
+                        <input type="checkbox" id="remember-me" checked>
+                        <label for="remember-me">Remember me</label>
+                    </span>
+                    <label class="col-md-6 col-sm-6" ng-model="error[msg]" >{{error.msg}}</label>
                 </p>
-
                 <p class="fieldset">
                     <button class="full-width" type="submit" data-ng-click="authorize(user)"> Login </button>
                 </p>
@@ -169,9 +174,9 @@
 
                 <p class="fieldset">
                     <label class="image-replace cd-password" for="signup-password">Password</label>
-                    <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password"  name="password"
+                    <input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password"  name="password"
                            data-ng-model="user.pass" required><!--ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"-->
-                    	<a href="#" class="hide-password">Hide</a>
+                    	<a href="#" class="hide-password">Show</a>
                     <span class="cd-error-message">
                         Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)
                             and be between 8 and 20 characters.
@@ -180,9 +185,9 @@
 
                 <p class="fieldset">
                     <label class="image-replace cd-password" for="signup-confirm_password">Confirm password</label>
-                    <input class="full-width has-padding has-border" id="signup-confirm_password" type="text"  placeholder="Confirm password"
+                    <input class="full-width has-padding has-border" id="signup-confirm_password" type="password"  placeholder="Confirm password"
                            data-ng-model="user.pass_confirm" required  name="password_confirm"  pw-check="signup-password">
-                    <a href="#" class="hide-password">Hide</a>
+                    <a href="#" class="hide-password">Show</a>
                 <div class="msg-block" ng-show="registerForm.$error">
                     <span class="msg-error" ng-show="registerForm.password_confirm.$error.pwmatch">Passwords don't match.</span>
                 </div>

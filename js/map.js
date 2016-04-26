@@ -7,15 +7,15 @@ var map;
 //инициализация карты в div "map"
 function initialize() {
 
-    var haightAshbury = new google.maps.LatLng(50.449696, 30.4588);//(долгота, широта)
+    var haightAshbury = new google.maps.LatLng(50.449309, 30.460745);//(долгота, широта)
     var mapOptions = {
-        zoom: 14,//масштаб
+        zoom: 16,//масштаб
         center: haightAshbury,//позиционируем карту на заданые координаты
         mapTypeId: google.maps.MapTypeId.ROADMAP,//задаем тип карты
         v: 3.20
     };    
     map = new google.maps.Map(document.getElementById("map"), mapOptions);//инициализация карты
-    console.log(map);
+    //console.log(map);
 }
 //функция добавления маркера
 function addMarker(lat, lng, contentString) {

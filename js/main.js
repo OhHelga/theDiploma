@@ -1,18 +1,17 @@
 var isAuthorised = false;
-var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/search.png", "content/icons/pen.png"];
-var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/searchDark.png", "content/icons/penDark.png"];
+//var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/search.png", "content/icons/pen.png"];
+//var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "content/icons/searchDark.png", "content/icons/penDark.png"];
+
+var menuIcons = ["content/icons/hat.png", "content/icons/direction.png", "content/icons/pen.png"];
+var menuIconsChosen = ["content/icons/hatDark.png", "content/icons/directionDark.png", "", "content/icons/penDark.png"];
+
 
 var pageID = "#inBody";
 
 
 $(document).ready(function () {
 
-	$('.datepicker').datepicker({
-		format: 'yyyy-mm-dd',
-		startDate: '-3d'
-	});
-
-	$(".numeric").numeric({ decimal : ".",  negative : false, scale: 3 });
+	
 
 
 	$('.item').click(function(event) {
@@ -70,7 +69,6 @@ var formModal = $('.cd-user-modal'),
 
 	//hide or show password
 	$('.hide-password').on('click', function(){
-		console.log('hi');
 		var togglePass= $(this),
 			passwordField = togglePass.prev('input');
 		console.log(togglePass);

@@ -1,6 +1,6 @@
 
 <span data-ng-controller="CourseInfoCtrl">
-<div class="row" style="height:95%; overflow: auto">
+<div class="row" style="height:95%; overflow: auto; width:100%">
     <div class="col-md-12 col-sm-12">
         <form class="cd-form">
             <div class="row">
@@ -29,7 +29,7 @@
 
                 </div>
             </div>
-            <div class="row">
+<!--            <div class="row">
                 <div class="col-md-3">
                     <h4>Teachers:</h4>
                 </div>
@@ -40,7 +40,7 @@
                     <br/>
                     <button data-toggle="modal" data-target="#modal-cont-teachers"> Add teachers</button>
                 </div>
-            </div>
+            </div>-->
             <div class="row">
                 <div class="col-md-3">
                     <h4>Time:</h4>
@@ -50,7 +50,7 @@
                             placeholder="Begin date" ng-model="course.begin_date">
                     to
                     <input  class="has-padding-user has-border datepicker" type="text"
-                            placeholder="Begin date" ng-model="course.end_date">
+                            placeholder="End date" ng-model="course.end_date">
                 </div>
             </div>
             <div class="row">
@@ -58,7 +58,7 @@
                     <h4>Credits:</h4>
                 </div>
                 <div class="col-md-9">
-                    <input type="text" class="full-width has-padding-user has-border numeric" ng-model="course.credits"  placeholder="Credits" required>
+                    <input class="full-width has-padding-user has-border numeric" type="text" ng-model="course.credits"  placeholder="Credits" required>
                 </div>
             </div>
             <div class="row">

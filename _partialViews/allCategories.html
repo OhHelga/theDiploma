@@ -24,7 +24,7 @@
             <div class="carousel-inner">
                 <div class="item active popular_courses">
                     <div class="row" style="margin:0">
-                        <div class="col-sm-4 course" ng-repeat='course1 in courses1'>
+                        <div class="col-sm-4 course" ng-repeat='course1 in courses1' ng-click="show_course_data(course1.id)">
                             <h4>{{course1.name}}</h4> <br/>
                             Category: {{course1.category.name}}<br/>
                             Where: {{course1.location.name}} <br/>
@@ -49,8 +49,8 @@
                     </div>
                 </div>-->
             </div>
-            <a class="left carousel-control" href="javascript:void(0)" data-slide="prev">‹</a>
-            <a class="right carousel-control" href="javascript:void(0)" data-slide="next">›</a>
+            <!--<a class="left carousel-control" href="javascript:void(0)" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="javascript:void(0)" data-slide="next">›</a>-->
         </div>
     </div>
 </div>

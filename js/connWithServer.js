@@ -654,17 +654,20 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         if ($routeParams.action == "change")
             url = '/api/courses/' + $scope.course.id + '/update/';
         else
-            url = "";
+            url = "/api/courses/create/";
         $http({
             method: 'POST',
-            //url: url,
+            url: url,
             data: JSON.stringify($scope.course),
             headers: { 'Content-Type': 'application/JSON' }
         }).
             success(function (data) {
                 console.log(data);
                 //$location.url("/course/" + data + "/show");
-                $location.url("/course/" + $scope.course.id + "/show");
+                if ($routeParams.action != 'add')
+                    $location.url("/course/" + $scope.course.id + "/show");
+                else
+                    $location.url('/courses/all');
             })
             .error(function (error) {
                 console.log(error);

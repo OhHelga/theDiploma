@@ -2,7 +2,7 @@
  * Created by MorgensternUser on 05.04.2016.
  */
 //Defining an Angular module
-var diplomaApp = angular.module('diplomaApp', ['ngRoute', 'integralui']);
+var diplomaApp = angular.module('diplomaApp', ['ngRoute', 'integralui', 'pascalprecht.translate']);
 
 //CONFIGURATION to resolve urls, templates and controllers
 diplomaApp.config(['$routeProvider',
@@ -44,16 +44,56 @@ diplomaApp.config(['$routeProvider',
 //CONFIGURATION to change language
 diplomaApp.config(function($translateProvider) {
     $translateProvider.translations('en', {
-            TITLE: 'Welcome!',
-            MESSAGE: 'This app supports your lanaguage!',
+        //main page
+            Main: 'Main',
+            LogIn: 'LogIn',
+            SignIn: 'Sign in',
+            NewAcc: 'New account',
+            Pass: 'Password',
+            ConfPass: 'Confirm password',
+            GoToMail: 'Please go to your e-mail and follow the instructions.',
+            CreateAcc: 'Create account',
+            RememberMe: 'Remember me',
             en: 'English',
-            ua: 'Українська'
+            ua: 'Українська',
+            Slogan: 'You <span class="importantText">smarter</span><br/> than you think. <br/><br/> Find <span class="importantText"> your way </span><br/> with <br/> <span class="importantText"> KpiColumbus </span>',
+            //categories page
+            Categories: 'Categories',
+            MostPopular: 'Most popular',
+            Category: 'Category',
+            Where: 'Where',
+            When: 'When',
+            Listeners: 'Listeners',
+            Views: 'Views',
+            //courses
+            Courses: 'Courses',
+            QuickSearch: 'Quick search:',
         })
         .translations('ua', {
-            TITLE: 'Välkommen!',
-            MESSAGE: 'Denna app stöder ditt språk!',
+            //main page
+            Main: 'Головна',
+            LogIn: 'Увійти',
+            SignIn: 'Увійти',
+            NewAcc: 'Новий аккаунт',
+            Pass: 'Пароль',
+            ConfPass: 'Підтвердіть пароль',
+            GoToMail: 'Слідуйте інструкціям, що відправлені вам на пошту',
+            CreateAcc: 'Створити аккаунт',
+            RememberMe: "Запам'ятати мене",
             en: 'English',
-            ua: 'Українська'
+            ua: 'Українська',
+            Slogan: 'Ти <span class="importantText">розумніший</span>,<br/> ніж ти думаєш. <br/><br/> Знайди <span class="importantText"> свій шлях </span><br/> з <span class="importantText"> KpiColumbus </span>',
+            //categories page
+            Categories: 'Категорії',
+            MostPopular: 'Найпопулярніші',
+            Category: 'Категорія',
+            Where: 'Де',
+            When: 'Коли',
+            Listeners: 'Слухачі',
+            Views: 'Перегляди',
+            //courses
+            Courses: 'Курси',
+            QuickSearch: 'Швидкий пошук:',
         });
 
     $translateProvider.preferredLanguage('en');
@@ -122,6 +162,7 @@ diplomaApp.directive('pwCheck', [function () {
 //menu controller
 diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService', '$compile', '$translate',
     function ($scope, $http, $location, dataService, $compile, $translate) {
+    $scope.isUa = false;
 
     $scope.show_user_data = function(userId) {
         if (userId != undefined)
@@ -165,11 +206,11 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
 
     $scope.is_authenticated();
 
-
     $scope.language = 'en';
     $scope.languages = ['en', 'ua'];
-    $scope.updateLanguage = function() {
-        $translate.use($scope.language);
+    $scope.updateLanguage = function(l) {
+        $translate.use(l);
+        $scope.isUa = l == 'ua';
     };
 }]);
 

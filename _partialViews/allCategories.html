@@ -1,15 +1,15 @@
 <div data-ng-controller="CoursesCtrl"  style="height:100%">
     <div class = "row" style="height:50%">
         <div class = "col-md-12">
-            <h6 class="row header">Categories</h6>
+            <h6 class="row header" translate="Categories"></h6>
 
             <div class="col-md-3 category" ng-repeat="category in categories" onmouseover="show_subcategories(this)" onmouseout="hide_subcategories(this)">
                 <span data-ng-click="show_filtered_courses([category.id])">
-                    {{category.name}}
+                    {{ isUa ? category.name_ua : category.name }}
                 </span>
                 <span class="subcategories">
                     <div class='row subcategory' ng-repeat='sub in category.subcategories' data-ng-click='show_filtered_courses([sub.id])'>
-                        {{sub.name}}
+                        {{ isUa ? sub.name_ua : sub.name }}
                     </div>
                 </span>
             </div>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="row" style="padding:1em; height:50%">
-        <h6 class="row header">Most popular</h6>
+        <h6 class="row header" translate="MostPopular"></h6>
         <!--most popular carousel-->
         <div id="most-popular-carousel" class="carousel slide">
             <!-- Carousel items -->
@@ -26,11 +26,11 @@
                     <div class="row" style="margin:0">
                         <div class="col-sm-4 course" ng-repeat='course1 in courses1' ng-click="show_course_data(course1.id)">
                             <h4>{{course1.name}}</h4> <br/>
-                            Category: {{course1.category.name}}<br/>
-                            Where: {{course1.location.name}} <br/>
-                            When: {{course1.begin_date}} - {{course1.end_date}} <br/>
-                            Listeners: {{course1.users.length}}<br/>
-                            Views: {{course1.views_count}}
+                            {{ 'Category' | translate }}: {{ isUa ? course1.category.name_ua : course1.category.name }}<br/>
+                            {{ 'Where' | translate }}: {{ isUa ? course1.location.name_ua :course1.location.name }} <br/>
+                            {{ 'When' | translate }}: {{course1.begin_date}} - {{course1.end_date}} <br/>
+                            {{ 'Listeners' | translate }}: {{course1.users.length}}<br/>
+                            {{ 'Views' | translate }}: {{course1.views_count}}
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                             {{course3.name}}
                         </div>
                     </div>
-                </div>-->
+            </div>-->
             </div>
             <!--<a class="left carousel-control" href="javascript:void(0)" data-slide="prev">‹</a>
             <a class="right carousel-control" href="javascript:void(0)" data-slide="next">›</a>-->

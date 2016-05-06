@@ -12,13 +12,14 @@
     <link rel="stylesheet" href="css/style.css"> <!-- Gem style -->
     <script src="js/libraries/modernizr.js"></script> <!-- Modernizr -->
     <script src="js/libraries/bootstrap/bootstrap.js"></script>
-    <script type="text/javascript" src="js/libraries/angular-translate.js"></script>
-
 
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
+   <!-- <script type="text/javascript" src="js/libraries/angular-translate.js"></script>!-->
+    <script data-require="angular-translate@2.6.0" data-semver="2.6.0" src="https://cdn.rawgit.com/angular-translate/bower-angular-translate/2.6.0/angular-translate.js"></script>
+
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/datepicker.css">
@@ -52,10 +53,10 @@
 <div class="row"  id="menu" ng-if="User == null || User.id == 0">
     <div class="col-md-12" style="height:100%">
         <ul>
-            <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
+            <li><a href="" data-ng-click="show_all_categories()"  id="chosen">{{ 'Main' | translate }}</a></li>
             <!--<li><a href="" data-ng-click="go_to_filtering()">Search</a></li>-->
-            <li id="user"><a href="#" >LogIn</a></li>
-            <select ng-options="language | translate for language in languages" ng-model="language" ng-change="updateLanguage()"></select>
+            <li id="user"><a href="#" >{{ 'LogIn' | translate }}</a></li>
+            <select ng-options="lang | translate for lang in languages" ng-model="language" data-ng-change="updateLanguage(language)"></select>
         </ul>
     </div>
     <div class="col-md-12 interBlock"></div>
@@ -63,9 +64,7 @@
 <div class="row" id="mainBody">
     <div class="col-md-12 annotation"  ng-if="User == null || User.id == 0">
         <div class="col-md-6 mainText">
-            You <span class="importantText">smarter</span><br/> than you think. <br/><br/>
-            Find <span class="importantText"> your way </span><br/> with <br/>
-            <span class="importantText"> KpiColumbus </span>
+            <span translate="{{ 'Slogan' }}"></span>
         </div>
         <!--<div class = "col-md-12 containerDownBtn">
             <div class="col-md-2 col-sm-3">
@@ -78,20 +77,13 @@
         <div class="col-md-1 col-sm-2 navigation">
             <div class="item verticalText"  id="0" data-ng-click="show_user_data(User.id)" title="User">
                 <img src="content/icons/hat.png">
-                <span ng-if="User == null || User.id == 0">LogIn</span>
+                <span ng-if="User == null || User.id == 0">{{ 'LogIn' | translate }}</span>
             </div>
             <div class="item chosen"  id="1"  data-ng-click="show_all_categories()" title="Courses">
                 <img src="content/icons/directionDark.png">
             </div>
-            <!--<div class="item"  id = "2"  data-ng-click="go_to_filtering()" title="Search">
-                <img src="content/icons/search.png">
-            </div>-->
 
             <span id="createBtn"></span>
-
-            <!--<div class="item"  id = "3"  data-ng-click="add_course()" title="Add course" ng-show="User.category == 1">
-                <img src="content/icons/pen.png">
-            </div>-->
         </div>
 
         <div class="col-md-11 col-sm-10 body">
@@ -110,8 +102,8 @@
 <div class="cd-user-modal"  data-ng-controller="UserCtrl"> <!-- this is the entire modal form, including the background -->
     <div class="cd-user-modal-container"> <!-- this is the container wrapper -->
         <ul class="cd-switcher">
-            <li><a href="#">Sign in</a></li>
-            <li><a href="#">New account</a></li>
+            <li><a href="#">{{ 'SignIn' | translate }}</a></li>
+            <li><a href="#">{{ 'NewAcc' | translate }}</a></li>
         </ul>
 
         <div id="cd-login"> <!-- log in form -->
@@ -124,7 +116,7 @@
                 </p>
 
                 <p class="fieldset">
-                    <label class="image-replace cd-password" for="signin-password">Password</label>
+                    <label class="image-replace cd-password" for="signin-password">{{ 'Pass' | translate }}</label>
                     <input class="full-width has-padding has-border" id="signin-password" type="password" placeholder="Password"
                            data-ng-model="user.pass" name="password" required>
                     	<a href="#" class="hide-password">Show</a>
@@ -134,12 +126,12 @@
                 <p class="fieldset">
                     <span class="col-md-6 col-sm-6">
                         <input type="checkbox" id="remember-me" checked>
-                        <label for="remember-me">Remember me</label>
+                        <label for="remember-me">{{ 'RememberMe' | translate }}</label>
                     </span>
                     <label class="col-md-6 col-sm-6" ng-model="error[msg]" >{{error.msg}}</label>
                 </p>
                 <p class="fieldset">
-                    <button class="full-width" type="submit" data-ng-click="authorize(user)"> Login </button>
+                    <button class="full-width" type="submit" data-ng-click="authorize(user)"> {{ 'LogIn' | translate }} </button>
                 </p>
             </form>
 
@@ -176,7 +168,7 @@
                 </p>
 
                 <p class="fieldset">
-                    <label class="image-replace cd-password" for="signup-password">Password</label>
+                    <label class="image-replace cd-password" for="signup-password">{{ 'Pass' | translate }}</label>
                     <input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password"  name="password"
                            data-ng-model="user.pass" required><!--ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/"-->
                     	<a href="#" class="hide-password">Show</a>
@@ -187,7 +179,7 @@
                 </p>
 
                 <p class="fieldset">
-                    <label class="image-replace cd-password" for="signup-confirm_password">Confirm password</label>
+                    <label class="image-replace cd-password" for="signup-confirm_password">{{ 'ConfPass' | translate }}</label>
                     <input class="full-width has-padding has-border" id="signup-confirm_password" type="password"  placeholder="Confirm password"
                            data-ng-model="user.pass_confirm" required  name="password_confirm"  pw-check="signup-password">
                     <a href="#" class="hide-password">Show</a>
@@ -197,13 +189,13 @@
                 </p>
 
                 <p class="fieldset">
-                    Please go to your e-mail and follow the instructions.
+                    {{ 'GoToMail' | translate }}
                     <!--	<input type="checkbox" id="accept-terms">
                         <label for="accept-terms">I agree to the <a href="#">Terms</a></label>-->
                 </p>
 
                 <p class="fieldset">
-                    <button class="full-width has-padding" ng-click="register(user)"> Create account</button>
+                    <button class="full-width has-padding" ng-click="register(user)"> {{ 'CreateAcc' | translate }} </button>
                 </p>
             </form>
 

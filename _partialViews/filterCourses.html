@@ -5,14 +5,14 @@
 
     <div class="col-md-6 col-sm-6">
         <div class="row coursesrow">
-            <h6>Courses </h6><br/>
-            <h4>Quick search:</h4><input ng-model="findCourses.name" id="mySelect">
+            <h6 translate="Courses"> </h6><br/>
+            <h4 translate="QuickSearch"></h4> <input ng-model="findCourses<!--.name-->" id="mySelect">
         </div>
         <div  class="row coursesrow courses_f">
             <div class="row course_f" ng-repeat="course in courses | filter:findCourses"
                  ng-mouseover="bounce_marker(course.location.id, true)" ng-mouseout="bounce_marker(course.location.id, false)"
                     data-ng-click="show_course_data(course.id)">
-                {{course.name}}
+                {{ isUa ? course.name_ua : course.name }}
             </div>
         </div>
         <!--<div class="row coursesrow">

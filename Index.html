@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
     <link rel="stylesheet" href="css/style.css"> <!-- Gem style -->
     <script src="js/libraries/modernizr.js"></script> <!-- Modernizr -->
-    <script src="js/libraries/bootstrap/bootstrap.js"></script> <!-- Modernizr -->
+    <script src="js/libraries/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="js/libraries/angular-translate.js"></script>
+
 
     <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
@@ -53,6 +55,7 @@
             <li><a href="" data-ng-click="show_all_categories()"  id="chosen">Main</a></li>
             <!--<li><a href="" data-ng-click="go_to_filtering()">Search</a></li>-->
             <li id="user"><a href="#" >LogIn</a></li>
+            <select ng-options="language | translate for language in languages" ng-model="language" ng-change="updateLanguage()"></select>
         </ul>
     </div>
     <div class="col-md-12 interBlock"></div>

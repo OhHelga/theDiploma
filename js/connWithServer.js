@@ -41,6 +41,24 @@ diplomaApp.config(['$routeProvider',
     }
 ]);
 
+//CONFIGURATION to change language
+diplomaApp.config(function($translateProvider) {
+    $translateProvider.translations('en', {
+            TITLE: 'Welcome!',
+            MESSAGE: 'This app supports your lanaguage!',
+            en: 'English',
+            ua: 'Українська'
+        })
+        .translations('ua', {
+            TITLE: 'Välkommen!',
+            MESSAGE: 'Denna app stöder ditt språk!',
+            en: 'English',
+            ua: 'Українська'
+        });
+
+    $translateProvider.preferredLanguage('en');
+});
+
 //SERVICE to pass data between controllers
 diplomaApp.service('dataService', function() {
     var userId = 0;
@@ -102,8 +120,8 @@ diplomaApp.directive('pwCheck', [function () {
 //CONTROLLERS for each part of the portal
 
 //menu controller
-diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService', '$compile',
-    function ($scope, $http, $location, dataService, $compile) {
+diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService', '$compile', '$translate',
+    function ($scope, $http, $location, dataService, $compile, $translate) {
 
     $scope.show_user_data = function(userId) {
         if (userId != undefined)
@@ -146,6 +164,13 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
     }
 
     $scope.is_authenticated();
+
+
+    $scope.language = 'en';
+    $scope.languages = ['en', 'ua'];
+    $scope.updateLanguage = function() {
+        $translate.use($scope.language);
+    };
 }]);
 
 //user data controller
@@ -690,7 +715,13 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         }break;
         case 'add': {
             changeMenu(document.getElementById('3'));
-            $scope.get_data_for_course();
+            $('.datepicker').datepicker({
+                format: 'dd.mm.yy',
+                //startDate: '-0d'
+            });
+
+            $(".numeric").numeric({ decimal : ".",  negative : false, scale: 2 });
+            //$scope.get_data_for_course();
         } break;
         default: {
             changeMenu(document.getElementById('3'));

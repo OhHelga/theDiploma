@@ -25,7 +25,7 @@
                 <div class="item active popular_courses">
                     <div class="row" style="margin:0">
                         <div class="col-sm-4 course" ng-repeat='course1 in courses1' ng-click="show_course_data(course1.id)">
-                            <h4>{{course1.name}}</h4> <br/>
+                            <h4>{{ isUa ? course1.name_ua : course1.name }}</h4> <br/>
                             {{ 'Category' | translate }}: {{ isUa ? course1.category.name_ua : course1.category.name }}<br/>
                             {{ 'Where' | translate }}: {{ isUa ? course1.location.name_ua :course1.location.name }} <br/>
                             {{ 'When' | translate }}: {{course1.begin_date}} - {{course1.end_date}} <br/>

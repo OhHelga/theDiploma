@@ -5,7 +5,7 @@
         <form class="cd-form">
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Name:</h4>
+                    <h4 translate="Name"></h4>
                 </div>
                 <div class="col-md-9">
                     <input type="text" class="full-width has-padding-user has-border" ng-model="course.name"  placeholder="Name" required>
@@ -13,7 +13,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Category:</h4>
+                    <h4>{{ 'Category' | translate }}:</h4>
                 </div>
                 <div class="col-md-4">
                     <select name="mySelect" class="mySelect"
@@ -43,19 +43,19 @@
             </div>-->
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Time:</h4>
+                    <h4 translate="Time"></h4>
                 </div>
                 <div class="col-md-9">
                     <input  class="has-padding-user has-border datepicker" type="text"
                             placeholder="Begin date" ng-model="course.begin_date">
-                    to
+                    {{ 'to' | translate }}
                     <input  class="has-padding-user has-border datepicker" type="text"
                             placeholder="End date" ng-model="course.end_date">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Credits:</h4>
+                    <h4 translate="Length"></h4>
                 </div>
                 <div class="col-md-9">
                     <input class="full-width has-padding-user has-border numeric" type="text" ng-model="course.credits"  placeholder="Credits" required>
@@ -63,7 +63,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Price:</h4>
+                    <h4 translate="Price"></h4>
                 </div>
                 <div class="col-md-9">
                     <input class="numeric full-width has-padding-user has-border" type="text" ng-model="course.price"  placeholder="Price" required>
@@ -71,7 +71,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Building:</h4>
+                    <h4 translate="Building"></h4>
                 </div>
                 <div class="col-md-2">
                     <select name="mySelect" class="mySelect"
@@ -84,7 +84,7 @@
                             ng-model="course_locations.selectedOption"></select>
                 </div>
                 <div class="col-md-1">
-                    <h4>Room:</h4>
+                    <h4 translate="Room"></h4>
                 </div>
                 <div class="col-md-2">
                     <input type="text" class="full-width has-padding-user has-border" ng-model="course.classroom"  placeholder="Auditorium" required>
@@ -92,7 +92,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>About courses:</h4>
+                    <h4 translate="AboutCourses"></h4>
                 </div>
                 <div class="col-md-9">
                     <p class="fieldset">
@@ -105,11 +105,11 @@
 </div>
 
 <button ng-click="save_course()">
-    Save
+    {{ 'Save' | translate }}
 </button>
 
 <button ng-click="go_back()">
-    Cancel
+    {{ 'Cancel' | translate }}
 </button>
 
 <div class="modal fade" id="modal-cont-teachers" role="dialog">

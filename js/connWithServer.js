@@ -68,6 +68,34 @@ diplomaApp.config(function($translateProvider) {
             //courses
             Courses: 'Courses',
             QuickSearch: 'Quick search:',
+            //user info
+            Name: 'Name:',
+            Email: 'E-mail (hidden):',
+            GetAndroid: 'Get Android application:',
+            About:'About me:',
+            EndedCourses:'Ended courses',
+            CoursesForNow: 'Courses for now',
+            ShowAll: 'Show all',
+            ChangeProfileData: 'Change profile data',
+            Logout: 'Logout',
+            Save: 'Save',
+            ChangeTo: 'Change to:',
+            //course
+            Author: 'Author:',
+            Length: 'Length:',
+            hrs: 'hrs',
+            UAH: 'UAH',
+            Price: 'Price:',
+            Pavilion: 'Pavilion',
+            auditorium: 'auditorium',
+            NumbersOfListeners: 'Number of listeners:',
+            AboutCourses: 'About courses:',
+            Time: 'Time:',
+            to: 'to',
+            Building: 'Building:',
+            Room: 'Room:',
+            Cancel: 'Cancel',
+            Enter: 'Enter'
         })
         .translations('ua', {
             //main page
@@ -94,6 +122,34 @@ diplomaApp.config(function($translateProvider) {
             //courses
             Courses: 'Курси',
             QuickSearch: 'Швидкий пошук:',
+            //user info
+            Name: "Ім'я:",
+            Email: 'E-mail (приховано):',
+            GetAndroid: 'Отримати Android додаток:',
+            About:'Про мене:',
+            EndedCourses:'Завершені курси',
+            CoursesForNow: 'Курси',
+            ShowAll: 'Показати всі',
+            ChangeProfileData: 'Змінити дані',
+            Logout: 'Вийти',
+            Save: 'Зберегти',
+            ChangeTo: 'Змінити на:',
+            //course
+            Author: 'Автор:',
+            Length: 'Тривалість:',
+            hrs: 'год',
+            UAH: 'грн',
+            Price: 'Ціна:',
+            Pavilion: 'Корпус',
+            auditorium: 'аудиторія',
+            NumbersOfListeners: 'Кількість слухачів:',
+            AboutCourses: 'Про курси:',
+            Time: 'Час:',
+            to: 'до',
+            Building: 'Будівля:',
+            Room: 'Ауд.:',
+            Cancel: 'Відмінити',
+            Enter: 'Підписатися'
         });
 
     $translateProvider.preferredLanguage('en');
@@ -103,6 +159,7 @@ diplomaApp.config(function($translateProvider) {
 diplomaApp.service('dataService', function() {
     var userId = 0;
     var userCategory = 0;
+    //var isUa = false;
     var filter = {};
 
     var addUserId = function(id) {
@@ -129,6 +186,14 @@ diplomaApp.service('dataService', function() {
         return filter;
     }
 
+    /*var addIsUa = function (ua) {
+        isUa = ua;
+    }
+
+    var getIsUa = function() {
+        return isUa;
+    }
+*/
     return {
         addUserId: addUserId,
         getUserId: getUserId,
@@ -137,7 +202,10 @@ diplomaApp.service('dataService', function() {
         getUserCategory: getUserCategory,
 
         addFilter: addFilter,
-        getFilter: getFilter
+        getFilter: getFilter,
+
+        //addIsUa: addIsUa,
+        //getIsUa: getIsUa
     };
 });
 
@@ -182,6 +250,7 @@ diplomaApp.controller('MainCtrl', ['$scope', '$http', '$location', 'dataService'
     }
 
     $scope.is_authenticated  = function () {
+        //$scope.isUa = dataService.getIsUa();
         $http({
             method: 'POST',
             url: '/api/users/is_authenticated/',
@@ -314,7 +383,6 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             $location.url("/course/new/add");
         }
 
-        //AVATAR
         $scope.save_user_data = function (user) {
             $scope.data = "null";
             //get new avatar
@@ -330,6 +398,11 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
                 //??????????save data here
             }
             //r.readAsBinaryString(f);
+            var data = new FormData();
+            Object.keys(user).forEach(function(key) {
+                data.append(key, user[key]);
+            });
+            f ? data.append('avatar', f) : data.delete('avatar');
 
             $scope.user.category = $scope.user_categories.selectedOption.id;
             $scope.user.category_name = $scope.user_categories.selectedOption.name;
@@ -339,8 +412,9 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             $http({
                 method: 'POST',
                 url: '/api/users/update/',
-                data: JSON.stringify(user),
-                headers: {'Content-Type': 'application/JSON'}
+                data: data,//JSON.stringify(user),
+                headers: {'Content-Type': 'application/JSON'},
+                transformRequest: angular.identity
             })
                 .success(function (data) {
                     console.log(data);
@@ -621,7 +695,7 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
                         if ($scope.course.users[i].id == $scope.User.id)
                             can = false;
 
-                $('#enterBtn').html($compile('<button ng-show="' + can + '" ng-click="enter_course()"> Enter course </button>')($scope));
+                $('#enterBtn').html($compile('<button ng-show="' + can + '" ng-click="enter_course()"> {{ "Enter" | translate }} </button>')($scope));
 
                 $('.datepicker').datepicker({
                     format: 'dd.mm.yy',
@@ -783,8 +857,3 @@ diplomaApp.controller('CourseInfoCtrl', ['$scope', '$http', '$location', 'dataSe
         $scope.addedTeachers.splice(index, 1);
     }
 }]);
-
-function toDate(selector) {
-    var from = $(selector).val().split(".");
-    return new Date(from[2], from[1] - 1, from[0]);
-}

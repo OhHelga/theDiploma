@@ -2,19 +2,19 @@
 <div class="row" style="height:95%">
     <div class="col-md-6 col-sm-6">
         <div class="row">
-            <h6 class="header">{{course.name}}</h6>
+            <h6 class="header">{{ isUa ? course.name_ua : course.name }}</h6>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Category:</h4>
+                <h4>{{ 'Category' | translate }}:</h4>
             </div>
             <div class="col-md-9">
-                {{course.category.name}}
+                {{ isUa ? course.category.name_ua : course.category.name }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Author:</h4>
+                <h4 translate="Author"></h4>
             </div>
             <div class="col-md-9">
                 {{course.author.first_name}} {{course.author.middle_name}} {{course.author.last_name}}
@@ -32,7 +32,7 @@
         </div>-->
         <div class="row">
             <div class="col-md-3">
-                <h4>Time:</h4>
+                <h4>{{ 'When' | translate }}:</h4>
             </div>
             <div class="col-md-9">
                 {{course.begin_date}} - {{course.end_date}} <br/> ({{course.status}})
@@ -40,31 +40,33 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Length:</h4>
+                <h4 translate="Length"></h4>
             </div>
             <div class="col-md-9">
-                {{course.credits}} hrs
+                {{course.credits}} {{ 'hrs' | translate }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Price:</h4>
+                <h4 translate="Price"></h4>
             </div>
             <div class="col-md-9">
-                {{course.price}} UAH
+                {{course.price}} {{ 'UAH' | translate }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Where:</h4>
+                <h4>{{ 'Where' | translate }}:</h4>
             </div>
             <div class="col-md-9">
-                Pavilion {{course.location.name}}, auditorium {{course.classroom}} <br/> ({{course.location.address}})
+                {{ 'Pavilion' | translate }} {{ isUa ? course.location.name_ua : course.location.name }},
+                {{ 'auditorium' | translate }} {{course.classroom}} <br/>
+                ({{ isUa ? course.location.address_ua : course.location.address }})
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Number of listeners:</h4>
+                <h4 translate="NumbersOfListeners"></h4>
             </div>
             <div class="col-md-9">
                 {{course.users.length}}
@@ -72,7 +74,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>About courses:</h4>
+                <h4 translate="AboutCourses"></h4>
             </div>
             <div class="col-md-9">
                 {{course.info}}
@@ -85,7 +87,7 @@
     <div class="col-md-6 col-sm-6" style="height: 99%">
         <div id = "map"> </div>
         <button style='margin-top:0.3em' ng-if="course.author.id == User.id" ng-click="change_course()">
-            Change
+            {{ 'ChangeProfileData' | translate }}
         </button>
     </div>
 </div>

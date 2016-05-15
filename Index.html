@@ -84,6 +84,7 @@
             </div>
 
             <span id="createBtn"></span>
+            <select ng-options="lang | translate for lang in languages" ng-model="language" data-ng-change="updateLanguage(language)"></select>
         </div>
 
         <div class="col-md-11 col-sm-10 body">

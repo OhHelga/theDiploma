@@ -7,7 +7,7 @@
     <div class="col-md-8 col-sm-8">
         <div class="row">
             <div class="col-md-3">
-                <h4>Name:</h4>
+                <h4 translate="Name"></h4>
             </div>
             <div class="col-md-9">
                 {{user.first_name}} {{user.middle_name}} {{user.last_name}}
@@ -16,7 +16,7 @@
         <span ng-class="(user.id == User.id) ? '' : 'hidden'">
             <div class="row">
                 <div class="col-md-3">
-                    <h4>E-mail (hidden):</h4>
+                    <h4 translate="Email"></h4>
                 </div>
                 <div class="col-md-9">
                     {{user.email}}
@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Get Android application:</h4>
+                    <h4 translate="GetAndroid"></h4>
                 </div>
                 <div class="col-md-9">
                     {{androidLink}}
@@ -33,7 +33,7 @@
         </span>
         <div class="row">
             <div class="col-md-3">
-                <h4>Category:</h4>
+                <h4>{{ 'Category' | translate }}:</h4>
             </div>
             <div class="col-md-9">
                 {{user.category_name}}
@@ -41,7 +41,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>About me:</h4>
+                <h4 translate="About"></h4>
             </div>
             <div class="col-md-9">
                 {{user.personal}}
@@ -51,29 +51,29 @@
 </div>
 <div class="row" style="height:43%">
     <div class="col-md-6 col-sm-6">
-        <h6>Ended courses: </h6>
+        <h6 translate="EndedCourses"></h6>
         <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'finished'}">
-            {{course.name}}
+            {{ isUa ? course.name_ua : course.name }}
         </div>
-        <button data-toggle="modal" data-target="#modal-end-courses">Show all</button>
+        <button data-toggle="modal" data-target="#modal-end-courses">{{ 'ShowAll' | translate }}</button>
     </div>
     <div class="col-md-6 col-sm-6">
-        <h6>Courses for now: </h6>
+        <h6 translate="CoursesForNow"></h6>
         <div class="col-md-3" ng-repeat="course in user.Courses | limitTo: 5 | filter:{status:'active'}">
-            {{course.name}}
+            {{ isUa ? course.name_ua : course.name }}
         </div>
-        <button data-toggle="modal" data-target="#modal-cont-courses"> Show all</button>
+        <button data-toggle="modal" data-target="#modal-cont-courses">{{ 'ShowAll' | translate }}</button>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6 col-sm-6">
         <button ng-click="change_user_data(user.id)" ng-class="(user.id == User.id) ? '' : 'hidden'">
-            Change profile data
+            {{ 'ChangeProfileData' | translate }}
         </button>
     </div>
     <div class="col-md-6 col-sm-6">
         <button ng-click="logout()" ng-class="(user.id == User.id) ? '' : 'hidden'" style="float:right;">
-            Logout
+            {{ 'Logout' | translate }}
         </button>
     </div>
 </div>
@@ -85,11 +85,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Courses for now</h4>
+                <h4 class="modal-title" translate="CoursesForNow"></h4>
             </div>
             <div class="modal-body">
                 <div class="row" ng-repeat="course in user.Courses | filter:{status:'continuing'}">
-                    {{course.name}}
+                    {{ isUa ? course.name_ua : course.name }}
                 </div>
             </div>
         </div>
@@ -102,11 +102,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Ended courses</h4>
+                <h4 class="modal-title" translate="EndedCourses"></h4>
             </div>
             <div class="modal-body">
                 <div class="row" ng-repeat="course in user.Courses | filter:{status:'ended'}">
-                    {{course.name}}
+                    {{ isUa ? course.name_ua : course.name }}
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@
     <div class="col-md-6 col-sm-6">
         <div class="row coursesrow">
             <h6 translate="Courses"> </h6><br/>
-            <h4 translate="QuickSearch"></h4> <input ng-model="findCourses<!--.name-->" id="mySelect">
+            <h4 translate="QuickSearch"></h4> <input ng-model="findCourses.name" id="mySelect">
         </div>
         <div  class="row coursesrow courses_f">
             <div class="row course_f" ng-repeat="course in courses | filter:findCourses"

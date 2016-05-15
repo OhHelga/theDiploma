@@ -2,14 +2,14 @@
 <div class="row" style="height: 95%">
     <div class="col-md-4 col-sm-4"  style="height: 100%">
         <img src="{{user.avatar_url}}" class="avatar"> <br/>
-        Change to: <input type="file" id="file" name="file"/>
+        {{ 'ChangeTo' | translate }} <input type="file" id="file" name="file"/>
     </div>
 
     <div class="col-md-8 col-sm-8">
         <form class="cd-form">
         <div class="row">
             <div class="col-md-3">
-                <h4>Name:</h4>
+                <h4 translate="Name"></h4>
             </div>
             <div class="col-md-9">
                     <input type="text" class="full-width has-padding-user has-border" ng-model="user.first_name"  placeholder="First name" required>
@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>Category:</h4>
+                <h4>{{ 'Category' | translate }}:</h4>
             </div>
             <div class="col-md-9">
                 <select name="mySelect" class="mySelect"
@@ -29,7 +29,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <h4>About me:</h4>
+                <h4 translate="About"></h4>
             </div>
             <div class="col-md-9">
                 <p class="fieldset">
@@ -41,5 +41,5 @@
     </div>
 </div>
 
-<button data-ng-click="save_user_data(user)" class="col-md-1 col-sm-2">Save</button>
+<button data-ng-click="save_user_data(user)" class="col-md-1 col-sm-2">{{ 'Save' | translate }}</button>
 </span>

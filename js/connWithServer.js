@@ -82,7 +82,7 @@ diplomaApp.config(function($translateProvider) {
             ChangeTo: 'Change to:',
             //course
             Author: 'Author:',
-            Length: 'Length:',
+            Length: 'Duration:',
             hrs: 'hrs',
             UAH: 'UAH',
             Price: 'Price:',

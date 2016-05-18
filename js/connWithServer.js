@@ -357,7 +357,12 @@ diplomaApp.controller('UserCtrl', ['$scope', '$http', '$location', 'dataService'
             })
                 .success(function (data) {
                     console.log(data);
-                    $scope.user = data;
+                    if (data.user === undefined)
+                        $scope.user = data;
+                    else {
+                        $scope.user = data.user;
+                        $scope.androidLink = data.androidLink;
+                    }
 
                     $scope.user_categories = {
                         availableOptions: [{
